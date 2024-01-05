@@ -1,41 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:restaurant_reservation/viewmodel/signup_viewmodel.dart';
 import 'login_page.dart';
 
 class SignUpPage extends StatefulWidget {
-  const SignUpPage({super.key});
+  const SignUpPage({Key? key});
 
   @override
   _SignUpPageState createState() => _SignUpPageState();
 }
 
 class _SignUpPageState extends State<SignUpPage> {
-  bool keepSignedIn = false;
-
-  bool _isInputValid() {
-    bool isEmailValid = _isValidEmail(_emailController.text);
-    bool isPhoneNumberValid = _isValidPhoneNumber(_phoneNumberController.text);
-    bool isPasswordValid = _passwordController.text.length >= 8;
-
-    return isEmailValid && isPhoneNumberValid && isPasswordValid;
-  }
-
-  bool _isValidEmail(String email) {
-    return email.contains('@');
-  }
-
-  bool _isValidPhoneNumber(String phoneNumber) {
-    return int.tryParse(phoneNumber) != null;
-  }
-
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _usernameController = TextEditingController();
-  final TextEditingController _phoneNumberController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final SignUpViewModel _viewModel = SignUpViewModel();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+    backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text('Sign Up'),
         backgroundColor: Colors.blueGrey[500],
@@ -46,6 +26,7 @@ class _SignUpPageState extends State<SignUpPage> {
           },
         ),
       ),
+
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -58,39 +39,39 @@ class _SignUpPageState extends State<SignUpPage> {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 16),
+
               TextFieldWithIcon(
                 label: 'Email',
                 icon: Icons.email,
-                controller: _emailController,
+                controller: _viewModel.emailController,
               ),
               TextFieldWithIcon(
-                  label: 'UserName',
-                  icon: Icons.person,
-                  controller: _usernameController),
+                label: 'UserName',
+                icon: Icons.person,
+                controller: _viewModel.usernameController,
+              ),
               TextFieldWithIcon(
                 label: 'Phone Number',
                 icon: Icons.phone,
-                controller: _phoneNumberController,
+                controller: _viewModel.phoneNumberController,
               ),
               TextFieldWithIcon(
                 label: 'Password',
                 icon: Icons.lock,
-                controller: _passwordController,
+                controller: _viewModel.passwordController,
               ),
               Row(
                 children: [
                   Checkbox(
-                    value: keepSignedIn,
+                    value: _viewModel.keepSignedIn,
                     onChanged: (value) {
-                      setState(() {
-                        keepSignedIn = value!;
-                      });
+                      _viewModel.keepSignedInNotifier.value = value ?? false;
                     },
                   ),
                   const Text('Keep me signed in on this phone'),
                 ],
               ),
-              const SizedBox(height: 16),
+const SizedBox(height: 16),
               const Text('Already a Member?',
                   style: TextStyle(fontWeight: FontWeight.bold)),
               InkWell(
@@ -105,9 +86,10 @@ class _SignUpPageState extends State<SignUpPage> {
                         fontWeight: FontWeight.bold, color: Colors.pink,fontSize: 15)),
               ),
               const SizedBox(height: 16),
+
               ElevatedButton(
                 onPressed: () {
-                  if (_isInputValid()) {
+                  if (_viewModel.isInputValid) {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(builder: (context) => SignInPage()),
@@ -117,7 +99,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   }
                 },
                 child: Container(
-                  child: Text('Sign Up'),
+                  child: const Text('Sign Up'),
                   color: Colors.white,
                 ),
               ),
@@ -148,7 +130,6 @@ class _SignUpPageState extends State<SignUpPage> {
     );
   }
 }
-
 class TextFieldWithIcon extends StatelessWidget {
   final String label;
   final IconData icon;
@@ -180,3 +161,4 @@ class TextFieldWithIcon extends StatelessWidget {
     );
   }
 }
+

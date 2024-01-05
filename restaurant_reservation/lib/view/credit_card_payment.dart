@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'reservation_success_alert.dart';
-import 'credit_card_payment.dart';
+import '../../model/credit_card_model.dart';  // Import the CreditCardModel
 
 class CreditCardPaymentPage extends StatefulWidget {
   @override
@@ -8,9 +8,7 @@ class CreditCardPaymentPage extends StatefulWidget {
 }
 
 class _CreditCardPaymentPageState extends State<CreditCardPaymentPage> {
-  TextEditingController _cardNumberController = TextEditingController();
-  TextEditingController _expirationDateController = TextEditingController();
-  TextEditingController _cvvController = TextEditingController();
+  CreditCardModel _creditCard = CreditCardModel();  // Initialize the CreditCardModel
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +23,10 @@ class _CreditCardPaymentPageState extends State<CreditCardPaymentPage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             TextFormField(
-              controller: _cardNumberController,
+              onChanged: (value) {
+                // Update cardNumber in the ViewModel when the text changes
+                _creditCard.cardNumber = value;
+              },
               decoration: const InputDecoration(labelText: 'Card Number'),
               keyboardType: TextInputType.number,
             ),
@@ -34,14 +35,20 @@ class _CreditCardPaymentPageState extends State<CreditCardPaymentPage> {
               children: [
                 Expanded(
                   child: TextFormField(
-                    controller: _expirationDateController,
+                    onChanged: (value) {
+                      // Update expirationDate in the ViewModel when the text changes
+                      _creditCard.expirationDate = value;
+                    },
                     decoration: const InputDecoration(labelText: 'Expiration Date'),
                   ),
                 ),
                 const SizedBox(width: 16),
                 Expanded(
                   child: TextFormField(
-                    controller: _cvvController,
+                    onChanged: (value) {
+                      // Update cvv in the ViewModel when the text changes
+                      _creditCard.cvv = value;
+                    },
                     decoration: const InputDecoration(labelText: 'CVV'),
                     keyboardType: TextInputType.number,
                   ),
@@ -52,10 +59,15 @@ class _CreditCardPaymentPageState extends State<CreditCardPaymentPage> {
             ElevatedButton(
               style: ElevatedButton.styleFrom(backgroundColor: Colors.blueGrey),
               onPressed: () {
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(builder: (context) => ReservationSuccessPage()),
-                );
+                // Validate the credit card data before proceeding
+                if (_creditCard.isValidData()) {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => ReservationSuccessPage()),
+                  );
+                } else {
+                  // Handle invalid data, show a message, etc.
+                }
               },
               child: const Text('Pay Now', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
             ),

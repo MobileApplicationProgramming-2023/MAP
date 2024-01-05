@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'signup_page.dart';
-
+import 'package:restaurant_reservation/viewmodel/welcome_viewmodel.dart';
+import 'package:restaurant_reservation/view/signup_page.dart';
 class WelcomePage extends StatelessWidget {
-  const WelcomePage({super.key});
+  final WelcomeViewModel viewModel;  // Add this line
+
+  const WelcomePage({Key? key, required this.viewModel}) : super(key: key);  // Modify the constructor
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +14,10 @@ class WelcomePage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(Icons.table_restaurant_outlined, size: 150,color: Colors.blueGrey,
+            const Icon(
+              Icons.table_restaurant_outlined,
+              size: 150,
+              color: Colors.blueGrey,
             ),
             const SizedBox(height: 16),
             const Text(
@@ -30,10 +35,10 @@ class WelcomePage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => const SignUpPage()),
+                  MaterialPageRoute(builder: (context) => SignUpPage()),
                 );
               },
-              child: const Text('Get Started',style: TextStyle(color: Colors.black)),
+              child: const Text('Get Started', style: TextStyle(color: Colors.black)),
             ),
           ],
         ),

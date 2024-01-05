@@ -1,43 +1,10 @@
 import 'package:flutter/material.dart';
-import'select_payment_method.dart';
+import 'select_payment_method.dart';
+import '../viewmodel/reserve_table_viewmodel.dart';
 
-class ReserveTablePage extends StatefulWidget {
-  @override
-  _ReserveTablePageState createState() => _ReserveTablePageState();
-}
+class ReserveTablePage extends StatelessWidget {
+  final ReserveTableViewModel _viewModel = ReserveTableViewModel();
 
-class _ReserveTablePageState extends State<ReserveTablePage> {
-  DateTime? _selectedDate;
-  TimeOfDay? _selectedTime;
-  int _numberOfGuests = 1;
-  bool _insideisChecked=false;
-  bool _eventzoneisChecked=false;
-  bool _outsideisChecked=false;
-  Future<void> _selectDate(BuildContext context) async {
-    final DateTime? pickedDate = await showDatePicker(
-      context: context,
-      initialDate: DateTime.now(),
-      firstDate: DateTime.now(),
-      lastDate: DateTime(2101),
-    );
-    if (pickedDate != null && pickedDate != _selectedDate) {
-      setState(() {
-        _selectedDate = pickedDate;
-      });
-    }
-  }
-
-  Future<void> _selectTime(BuildContext context) async {
-    final TimeOfDay? pickedTime = await showTimePicker(
-      context: context,
-      initialTime: TimeOfDay.now(),
-    );
-    if (pickedTime != null && pickedTime != _selectedTime) {
-      setState(() {
-        _selectedTime = pickedTime;
-      });
-    }
-  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,12 +26,12 @@ class _ReserveTablePageState extends State<ReserveTablePage> {
                     style: TextStyle(fontSize: 18,),
                   ),
                   ElevatedButton(
-                    onPressed: () => _selectDate(context),
+                    onPressed: () => _viewModel.selectDate(context),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blueGrey
                     ),
-                    child: Text(_selectedDate != null
-                        ? '${_selectedDate!.day}/${_selectedDate!.month}/${_selectedDate!.year}'
+                    child: Text(_viewModel.selectedDate.value != null
+                        ? '${_viewModel.selectedDate.value!.day}/${_viewModel.selectedDate.value!.month}/${_viewModel.selectedDate.value!.year}'
                         : 'Select Date',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
                   ),
                 ],
@@ -79,9 +46,9 @@ class _ReserveTablePageState extends State<ReserveTablePage> {
                   ),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(backgroundColor: Colors.blueGrey),
-                    onPressed: () => _selectTime(context),
-                    child: Text(_selectedTime != null
-                        ? '${_selectedTime!.hour}:${_selectedTime!.minute}'
+                    onPressed: () => _viewModel.selectTime(context),
+                    child: Text(_viewModel.selectedTime.value != null
+                        ? '${_viewModel.selectedTime.value!.hour}:${_viewModel.selectedTime.value!.minute}'
                         : 'Select Time',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold)),
                   ),
                 ],
@@ -98,20 +65,14 @@ class _ReserveTablePageState extends State<ReserveTablePage> {
                     children: [
                       IconButton(
                         onPressed: () {
-                          if (_numberOfGuests > 1) {
-                            setState(() {
-                              _numberOfGuests--;
-                            });
-                          }
+                          _viewModel.decrementGuests();
                         },
                         icon: const Icon(Icons.remove),
                       ),
-                      Text('$_numberOfGuests'),
+                      Text('${_viewModel.numberOfGuests.value}'),
                       IconButton(
                         onPressed: () {
-                          setState(() {
-                            _numberOfGuests++;
-                          });
+                          _viewModel.incrementGuests();
                         },
                         icon: const Icon(Icons.add),
                       ),
@@ -125,20 +86,16 @@ class _ReserveTablePageState extends State<ReserveTablePage> {
                   const Text('(Optional)', style: TextStyle(fontSize: 16)),
                   Row(
                     children: [
-                      Checkbox(value: _insideisChecked, onChanged: (newBool1) {setState(() {
-                        _insideisChecked=newBool1!;
-                      });}),
+                      Checkbox(value: _viewModel.insideChecked.value, onChanged: (newBool1) {
+                        _viewModel.insideChecked.value = newBool1!;
+                      }),
                       const Text('Inside'),
-                      Checkbox(value: _eventzoneisChecked, onChanged: (newBool2) {
-                        setState(() {
-                          _eventzoneisChecked=newBool2!;
-                        });
+                      Checkbox(value: _viewModel.eventZoneChecked.value, onChanged: (newBool2) {
+                        _viewModel.eventZoneChecked.value = newBool2!;
                       }),
                       const Text('Event Zone'),
-                      Checkbox(value: _outsideisChecked, onChanged: (newBool3) {
-                        setState(() {
-                          _outsideisChecked=newBool3!;
-                        });
+                      Checkbox(value: _viewModel.outsideChecked.value, onChanged: (newBool3) {
+                        _viewModel.outsideChecked.value = newBool3!;
                       }),
                       const Text('Outside'),
                     ],
@@ -163,9 +120,9 @@ class _ReserveTablePageState extends State<ReserveTablePage> {
                 ),
                 child: const Align(
                   alignment: Alignment.center,
-                child: Text('Reserve Table',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 16),),
+                  child: Text('Reserve Table',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold,fontSize: 16),),
                 ),
-                ),
+              ),
             ],
           ),
         ),

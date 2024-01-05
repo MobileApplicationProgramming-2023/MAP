@@ -1,40 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_reservation/restaurant_list_page.dart';
-import 'package:restaurant_reservation/signup_page.dart';
-import 'owner_request_list.dart';
-
+import 'package:restaurant_reservation/viewmodel/login_viewmodel.dart';
+import 'restaurant_list_page.dart';
 class SignInPage extends StatefulWidget {
-  const SignInPage({super.key});
+  const SignInPage({Key? key});
 
   @override
   _SignInPageState createState() => _SignInPageState();
 }
 
 class _SignInPageState extends State<SignInPage> {
-  bool keepSignedIn = false;
-  static const String userEmail = 'user@user.com';
-  static const String userPassword = 'user1234';
-  static const String ownerEmail = 'owner@owner.com';
-  static const String ownerPassword = 'owner123';
-
-  bool _isInputValid() {
-    bool isEmailValid = _isValidEmail(_userEmailController.text);
-    bool isPasswordValid = _userPasswordController.text.length >= 8;
-
-    return isEmailValid && isPasswordValid;
-  }
-
-  bool _isValidEmail(String email) {
-    return email.contains('@');
-  }
-
-  final TextEditingController _userEmailController = TextEditingController();
-  final TextEditingController _userPasswordController = TextEditingController();
+  final SignInViewModel _viewModel = SignInViewModel();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+appBar: AppBar(
         backgroundColor: Colors.blueGrey,
         title: const Text('Sign In'),
         leading: IconButton(
@@ -59,10 +39,10 @@ class _SignInPageState extends State<SignInPage> {
               TextFieldWithIcon(
                 label: 'Email',
                 icon: Icons.email,
-                controller: _userEmailController,
+                controller: _viewModel.emailController,
               ),
               TextField(
-                controller: _userPasswordController,
+                controller: _viewModel.passwordController,
                 obscureText: true,
                 decoration: InputDecoration(
                   labelText: 'Password',
@@ -75,46 +55,20 @@ class _SignInPageState extends State<SignInPage> {
               Row(
                 children: [
                   Checkbox(
-                    value: keepSignedIn,
+                    value: _viewModel.keepSignedIn,
                     onChanged: (value) {
-                      setState(() {
-                        keepSignedIn = value!;
-                      });
+                      _viewModel.keepSignedInNotifier.value = value ?? false;
                     },
                   ),
                   const Text('Keep me signed in on this phone'),
                 ],
               ),
-              const SizedBox(height: 16),
-              const Text('New Here?', style: TextStyle(fontWeight: FontWeight.bold)),
-              InkWell(
-                onTap: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => const SignUpPage()),
-                  );
-                },
-                child: const Text('Click Here',
-                    style: TextStyle(fontWeight: FontWeight.bold, color: Colors.pink)),
-              ),
-              const SizedBox(height: 16),
+
               ElevatedButton(
                 onPressed: () {
-                  if (_isInputValid()) {
-                    if (_userEmailController.text == userEmail && _userPasswordController.text == userPassword) {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => RestaurantListPage()),
-                      );
-                    }
-                    else if (_userEmailController.text == ownerEmail && _userPasswordController.text == ownerPassword) {
-                      Navigator.pushReplacementNamed(context, '/ownerRequestList');
-                    }
-                    else {
-                      _showInvalidCredentialsDialog();
-                    }
-                  }
-                  else {
+                  if (_viewModel.isInputValid) {
+                    _handleLogin();
+                  } else {
                     _showInvalidInputDialog();
                   }
                 },
@@ -125,6 +79,21 @@ class _SignInPageState extends State<SignInPage> {
         ),
       ),
     );
+  }
+
+  void _handleLogin() {
+    if (_viewModel.emailController.text == 'user@user.com' && _viewModel.passwordController.text == 'user1234') {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => RestaurantListPage()),
+      );
+    }
+    else if (_viewModel.emailController.text == 'owner@owner.com' && _viewModel.passwordController.text == 'owner123') {
+      Navigator.pushReplacementNamed(context, '/ownerRequestList');
+    }
+    else {
+      _showInvalidCredentialsDialog();
+    }
   }
 
   void _showInvalidInputDialog() {
