@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
-import 'account_details.dart';
-import 'signup_page.dart';
-import 'restaurant_list_page.dart';
-import 'feedback_page.dart';
-import 'login_page.dart';
-import 'welcomepage.dart';
-import 'feedback_success_page.dart';
-import 'reserve_table_page.dart';
-import 'select_payment_method.dart';
-import 'reservation_success_alert.dart';
-import 'credit_card_payment.dart';
-import 'owner_request_list.dart';
-import 'restaurant_profile.dart';
-import 'modification_success.dart';
-
+import 'view/account_details.dart';
+import 'view/restaurant_list_page.dart';
+import 'view/feedback_page.dart';
+import 'view/login_page.dart';
+import 'view/welcome_page.dart';
+import 'viewmodel/welcome_viewmodel.dart';
+import 'view/feedback_success_page.dart';
+import 'view/reserve_table_page.dart';
+import 'view/reservation_success_alert.dart';
+import 'view/credit_card_payment.dart';
+import 'view/owner_request_list.dart';
+import 'view/restaurant_profile.dart';
+import 'view/signup_page.dart';
+import 'viewmodel/feedback_success_viewmodel.dart';
+import 'viewmodel/restaurant_profile_viewmodel.dart';
+import 'model/restaurant_profile_model.dart';
 void main() {
   runApp(MyApp());
 }
@@ -21,24 +22,28 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return  MaterialApp(
+    final welcomeViewModel = WelcomeViewModel(context);
+    final restaurantProfileViewModel = RestaurantProfileViewModel(model: RestaurantProfileModel(name: '', information: ''));
+    
+
+    return MaterialApp(
       initialRoute: '/',
       routes: {
-        '/login': (context) => const SignInPage(),
-        '/signup': (context) => const SignUpPage(),
+        '/login': (context) => SignInPage(),
+        '/signup': (context) => SignUpPage(),
         '/restaurantList': (context) => RestaurantListPage(),
         '/feedback': (context) => FeedbackPage(),
-        '/feedbackSuccess': (context) => FeedbackSuccessPage(),
+        '/feedbackSuccess': (context) => FeedbackSuccessPage(viewModel: FeedbackSuccessViewModel()),
         '/accountDetails': (context) => AccountDetailsPage(),
         '/reserveTable': (context) => ReserveTablePage(),
         '/reservationSuccess': (context) => ReservationSuccessPage(),
-        '/creditCardPayment': (context)=>CreditCardPaymentPage(),
+        '/creditCardPayment': (context) => CreditCardPaymentPage(),
         '/ownerRequestList': (context) => OwnerRequestListPage(),
-        '/restaurantProfilePage' :(context) =>RestaurantProfilePage(),
-        '/modificationSuccess':(context)=>ModificationSuccess(),
+        '/restaurantProfilePage': (context) => RestaurantProfilePage(viewModel: restaurantProfileViewModel),
+        
       },
       debugShowCheckedModeBanner: false,
-      home: const WelcomePage(),
+      home: WelcomePage(viewModel: welcomeViewModel),
     );
   }
 }

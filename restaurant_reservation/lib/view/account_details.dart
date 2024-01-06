@@ -1,12 +1,31 @@
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
+import '../viewmodel/account_details_viewmodel.dart';
+import '../model/account_details_model.dart';
 class AccountDetailsPage extends StatelessWidget {
-  final String fullName = 'John Doe';
-  final String email = 'Johndoe12@example.com';
-  final List<String> pastReservations = ['Reservation 1', 'Reservation 2', 'Reservation 3'];
-
   @override
   Widget build(BuildContext context) {
+    // Create an instance of AccountDetailsModel with dummy data
+    var accountDetailsModel = AccountDetailsModel(
+      fullName: 'John Doe',
+      email: 'Johndoe12@example.com',
+      pastReservations: ['Reservation 1', 'Reservation 2', 'Reservation 3'],
+    );
+
+    // Provide the view model to the widget tree
+    return ChangeNotifierProvider(
+      create: (context) => AccountDetailsViewModel(accountDetails: accountDetailsModel),
+      child: _AccountDetailsPageContent(),
+    );
+  }
+}
+
+class _AccountDetailsPageContent extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // Access the view model from the widget tree
+    var viewModel = Provider.of<AccountDetailsViewModel>(context);
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blueGrey,
@@ -18,12 +37,12 @@ class AccountDetailsPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Full Name: $fullName',
+              'Full Name: ${viewModel.fullName}',
               style: const TextStyle(fontSize: 18),
             ),
             const SizedBox(height: 16),
             Text(
-              'Email: $email',
+              'Email: ${viewModel.email}',
               style: const TextStyle(fontSize: 18),
             ),
             const SizedBox(height: 16),
@@ -34,7 +53,7 @@ class AccountDetailsPage extends StatelessWidget {
             const SizedBox(height: 8),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: pastReservations.map((reservation) {
+              children: viewModel.pastReservations.map((reservation) {
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 4.0),
                   child: Text('- $reservation'),

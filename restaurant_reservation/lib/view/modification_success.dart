@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:restaurant_reservation/view/owner_request_list.dart';
 
 class ModificationSuccess extends StatelessWidget {
+   
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,12 +21,13 @@ class ModificationSuccess extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushReplacementNamed(context, '/ownerRequestList');
-              },
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.blueGrey),
-              child: const Text('Back to Requests', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+            ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: Colors.blueGrey),
+              onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context) =>OwnerRequestListPage()));
+              }
+              ,child: const Text(
+                'Back to Requests',
+                style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+              ),
             ),
           ],
         ),

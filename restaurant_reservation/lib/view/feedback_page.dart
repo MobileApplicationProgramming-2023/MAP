@@ -1,13 +1,7 @@
 import 'package:flutter/material.dart';
-
-class FeedbackPage extends StatefulWidget {
-  @override
-  _FeedbackPageState createState() => _FeedbackPageState();
-}
-
-class _FeedbackPageState extends State<FeedbackPage> {
-  int _selectedStars = 0;
-  final TextEditingController _feedbackController = TextEditingController();
+import '../viewmodel/feedback_page_viewmodel.dart';
+class FeedbackPage extends StatelessWidget {
+  final FeedbackViewModel viewModel = FeedbackViewModel(); 
 
   @override
   Widget build(BuildContext context) {
@@ -29,23 +23,24 @@ class _FeedbackPageState extends State<FeedbackPage> {
               const SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: List.generate(5, (index) {
-                  return IconButton(
-                    icon: Icon(
-                      index < _selectedStars ? Icons.star : Icons.star_border,
-                      color: Colors.yellow,
+                 children: List.generate(5, (index) {
+              return IconButton(
+                icon: Icon(
+                  index < viewModel.selectedStars
+                      ? Icons.star
+                      : Icons.star_border,
+                      color: Colors.blueGrey,
                     ),
                     onPressed: () {
-                      setState(() {
-                        _selectedStars = index + 1;
-                      });
+                      viewModel.updateStars(index);
+                      
                     },
                   );
                 }),
               ),
               const SizedBox(height: 16),
               TextFormField(
-                controller: _feedbackController,
+                controller: viewModel.feedbackController,
                 decoration: const InputDecoration(
                   hintText: 'Enter your feedback here',
                   border: OutlineInputBorder(),
@@ -53,9 +48,11 @@ class _FeedbackPageState extends State<FeedbackPage> {
                 maxLines: 3,
               ),
               const SizedBox(height: 16),
-              ElevatedButton(
+              ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: Colors.blueGrey),
                 onPressed: () {
-                  if (_selectedStars > 0) {
+                  if (viewModel.isFeedbackValid()) {
+                    var feedback = viewModel.getFeedbackModel();
+
                     Navigator.pushReplacementNamed(context, '/feedbackSuccess');
                   } else {
                     showDialog(
@@ -64,7 +61,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                         title: const Text('Error'),
                         content: const Text('Please give a star rating before submitting feedback.'),
                         actions: [
-                          ElevatedButton(
+                          ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: Colors.blueGrey),
                             onPressed: () {
                               Navigator.pop(context);
                             },
@@ -75,7 +72,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                     );
                   }
                 },
-                child: const Text('Submit'),
+                child: const Text('Submit', style: TextStyle(color: Colors.black),),
               ),
             ],
           ),

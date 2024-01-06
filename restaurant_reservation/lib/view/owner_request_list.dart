@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import '../viewmodel/owner_request_list_viewmodel.dart';
 
 class OwnerRequestListPage extends StatefulWidget {
   @override
@@ -7,17 +7,7 @@ class OwnerRequestListPage extends StatefulWidget {
 }
 
 class _OwnerRequestListPageState extends State<OwnerRequestListPage> {
-  List<Reservation> reservationRequests = [
-    Reservation(
-        userName: 'John Doe',
-        dateTime: DateTime.now().add(const Duration(days: 2)),
-        numberOfGuests: 3),
-    Reservation(
-        userName: 'Alice Smith',
-        dateTime: DateTime.now().add(const Duration(days: 3,hours: 5)),
-        numberOfGuests: 2),
-    // Add more if needed
-  ];
+  final OwnerRequestListViewModel viewModel = OwnerRequestListViewModel();
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +22,6 @@ class _OwnerRequestListPageState extends State<OwnerRequestListPage> {
               if (value == 'viewProfile') {
                 Navigator.pushNamed(context, '/restaurantProfilePage');
               } else if (value == 'logout') {
-                Navigator.pushReplacementNamed(context, '/');
                 _handleLogout(context);
               }
             },
@@ -49,21 +38,25 @@ class _OwnerRequestListPageState extends State<OwnerRequestListPage> {
           ),
         ],
       ),
-      body: reservationRequests.isEmpty
-          ? const Center(
-        child: Text(
-          'No reservation requests',
-          style: TextStyle(fontSize: 18),
-        ),
-      )
-          : ListView.builder(
-        itemCount: reservationRequests.length,
-        itemBuilder: (context, index) {
-          return _buildReservationRequestCard(
-              context, reservationRequests[index]);
-        },
-      ),
+      body: _buildReservationList(),
     );
+  }
+
+  Widget _buildReservationList() {
+    return viewModel.reservationRequests.isEmpty
+        ? const Center(
+            child: Text(
+              'No reservation requests',
+              style: TextStyle(fontSize: 18),
+            ),
+          )
+        : ListView.builder(
+            itemCount: viewModel.reservationRequests.length,
+            itemBuilder: (context, index) {
+              return _buildReservationRequestCard(
+                  context, viewModel.reservationRequests[index]);
+            },
+          );
   }
 
   Widget _buildReservationRequestCard(
@@ -95,7 +88,7 @@ class _OwnerRequestListPageState extends State<OwnerRequestListPage> {
               child: const Text(
                 'Reject',
                 style:
-                TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                    TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
               ),
             ),
           ],
@@ -105,30 +98,26 @@ class _OwnerRequestListPageState extends State<OwnerRequestListPage> {
   }
 
   void _handleAccept(BuildContext context, Reservation reservation) {
-    setState(() {
-      reservationRequests.remove(reservation);
-    });
-  }
+  viewModel.acceptReservation(reservation);
+  _showSnackbar(context, 'Reservation accepted');
+}
 
   void _handleReject(BuildContext context, Reservation reservation) {
+  viewModel.rejectReservation(reservation);
+  _showSnackbar(context, 'Reservation rejected');
+}
 
-    setState(() {
-      reservationRequests.remove(reservation);
-    });
-  }
   void _handleLogout(BuildContext context) {
     Navigator.pushReplacementNamed(context, '/');
   }
-}
 
-class Reservation {
-  final String userName;
-  final DateTime dateTime;
-  final int numberOfGuests;
-
-  Reservation({
-    required this.userName,
-    required this.dateTime,
-    required this.numberOfGuests,
-  });
+  void _showSnackbar(BuildContext context, String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        duration: Duration(seconds: 2),
+        actionOverflowThreshold: 2,
+      ),
+    );
+  }
 }

@@ -1,17 +1,11 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
+import '../viewmodel/restaurant_profile_viewmodel.dart';
 
-class RestaurantProfilePage extends StatefulWidget {
-  @override
-  _RestaurantProfilePageState createState() => _RestaurantProfilePageState();
-}
+class RestaurantProfilePage extends StatelessWidget {
+  final RestaurantProfileViewModel viewModel;
 
-class _RestaurantProfilePageState extends State<RestaurantProfilePage> {
-  TextEditingController _nameController = TextEditingController();
-  TextEditingController _infoController = TextEditingController();
-  File? _selectedImage;
+  RestaurantProfilePage({required this.viewModel});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,19 +24,17 @@ class _RestaurantProfilePageState extends State<RestaurantProfilePage> {
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
               const SizedBox(height: 36),
-              _buildTextField('Name', _nameController),
+              _buildTextField('Name', viewModel.model.name, (value) => viewModel.model.name = value),
               const SizedBox(height: 36),
-              _buildTextField('Information', _infoController),
+              _buildTextField('Information', viewModel.model.information, (value) => viewModel.model.information = value),
               const SizedBox(height: 56),
-              _buildLogoButton(),
+              _buildLogoButton(context),
               const SizedBox(height: 132),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   ElevatedButton(
-                    onPressed: () {
-                      _handleSubmit();
-                    },
+                    onPressed: () => viewModel.handleSubmit(context),
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blueGrey),
                     child: const Text('Submit',
@@ -50,9 +42,7 @@ class _RestaurantProfilePageState extends State<RestaurantProfilePage> {
                             color: Colors.black, fontWeight: FontWeight.bold)),
                   ),
                   ElevatedButton(
-                    onPressed: () {
-                      _handleCancel();
-                    },
+                    onPressed: () => viewModel.handleCancel(context),
                     style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.deepOrangeAccent),
                     child: const Text('Cancel',
@@ -68,9 +58,10 @@ class _RestaurantProfilePageState extends State<RestaurantProfilePage> {
     );
   }
 
-  Widget _buildTextField(String label, TextEditingController controller) {
+  Widget _buildTextField(String label, String value, ValueChanged<String> onChanged) {
     return TextField(
-      controller: controller,
+      onChanged: onChanged,
+      controller: TextEditingController(text: value),
       decoration: InputDecoration(
         labelText: label,
         border: OutlineInputBorder(
@@ -80,51 +71,12 @@ class _RestaurantProfilePageState extends State<RestaurantProfilePage> {
     );
   }
 
-  Widget _buildLogoButton() {
+  Widget _buildLogoButton(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {
-        _pickImageFromGallery();
-      },
+      onPressed: () => viewModel.handleLogoSelection(context),
       style: ElevatedButton.styleFrom(backgroundColor: Colors.blueGrey),
       child: const Text('Choose Logo',
           style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
     );
-  }
-
-  void _handleSubmit() {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('Confirm Modification?'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.pushReplacementNamed(context, '/modificationSuccess');
-              },
-              child: const Text('Accept'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  void _handleCancel() {
-    Navigator.pop(context);
-  }
-
-  Future _pickImageFromGallery() async {
-    final returnedImage =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
-    setState(() {
-      _selectedImage = File(returnedImage!.path);
-    });
   }
 }

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'restaurant_list_page.dart';
+import '../viewmodel/reservation_success_viewmodel.dart';
 
 class ReservationSuccessPage extends StatelessWidget {
+  final ReservationSuccessViewModel _viewModel = ReservationSuccessViewModel();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,12 +31,7 @@ class ReservationSuccessPage extends StatelessWidget {
               ),
               const SizedBox(height: 32),
               ElevatedButton(
-                onPressed: () {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(builder: (context) => RestaurantListPage()),
-                  );
-                },
+                onPressed: () => _viewModel.navigateToHome(context),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blueGrey,
                 ),

@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
-
+import '../viewmodel/feedback_success_viewmodel.dart';
 class FeedbackSuccessPage extends StatelessWidget {
+  final FeedbackSuccessViewModel viewModel;
+
+  FeedbackSuccessPage({required this.viewModel});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,7 +17,7 @@ class FeedbackSuccessPage extends StatelessWidget {
           children: [
             const Icon(
               Icons.check_circle,
-              color: Colors.green,
+              color: Colors.blueGrey,
               size: 100,
             ),
             const SizedBox(height: 16),
@@ -22,11 +26,11 @@ class FeedbackSuccessPage extends StatelessWidget {
               style: TextStyle(fontSize: 18),
             ),
             const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pop(context);
+            ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: Colors.blueGrey),
+              onPressed: () async {
+                await viewModel.navigateBack(context);
               },
-              child: const Text('Back to Home'),
+              child: const Text('Back to Home', style: TextStyle(color: Colors.black)),
             ),
           ],
         ),
