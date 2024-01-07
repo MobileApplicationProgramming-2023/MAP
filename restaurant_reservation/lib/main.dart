@@ -1,4 +1,6 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:restaurant_reservation/firebase_options.dart';
 import 'view/account_details.dart';
 import 'view/restaurant_list_page.dart';
 import 'view/feedback_page.dart';
@@ -15,7 +17,12 @@ import 'view/signup_page.dart';
 import 'viewmodel/feedback_success_viewmodel.dart';
 import 'viewmodel/restaurant_profile_viewmodel.dart';
 import 'model/restaurant_profile_model.dart';
-void main() {
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   runApp(MyApp());
 }
 
