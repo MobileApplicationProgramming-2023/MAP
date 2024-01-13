@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "47252981347",
+    "firebase_url": "https://mapdb-f6986-default-rtdb.firebaseio.com",
+    "project_id": "mapdb-f6986",
+    "storage_bucket": "mapdb-f6986.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:47252981347:android:12da6e18957970b98e5a56",
+        "android_client_info": {
+          "package_name": "com.example.restaurant_reservation"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBL5K78bBnP0xtoABiApy50C2SIQLQ3Z0c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

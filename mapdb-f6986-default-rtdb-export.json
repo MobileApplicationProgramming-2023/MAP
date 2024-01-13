@@ -1,0 +1,87 @@
+{
+  "manager": {
+    "managerId1": {
+      "password": "manager@2",
+      "username": "manager@2"
+    }
+  },
+  "reservations": {
+    "reservationId1": {
+      "date": "21/7/2024",
+      "guestNumber": 2,
+      "restaurantId": "restaurant1",
+      "specialRequests": "-",
+      "status": "pending",
+      "userId": "userId1"
+    },
+    "reservationId2": {
+      "date": "21/7/2024",
+      "guestNumber": 4,
+      "restaurantId": "restaurant1",
+      "specialRequests": "foreign guests",
+      "status": "confirmed",
+      "userId": "userId2"
+    }
+  },
+  "restaurants": {
+    "restaurantId1": {
+      "information": "About restaurant1",
+      "logo": "https://lebua.com/wp-content/uploads/2023/09/01-Mezzaluna-Angle-01-1-aspect-ratio-1366-768.jpg",
+      "name": "restaurant1"
+    },
+    "restaurantId2": {
+      "information": "About restaurant2",
+      "logo": "https://assets.architecturaldigest.in/photos/61bf5698964e7236ae515700/1:1/w_4480,h_4480,c_limit/(1).jpg",
+      "name": "restaurant2"
+    }
+  },
+  "users": {
+    "userId1": {
+      " phoneNumber": 1234567890,
+      "email": "johndoe@example.com",
+      "feedback": {
+        "feedbackId1": {
+          "comment": "Great service!",
+          "stars": 5
+        }
+      },
+      "fullName": "John Doe",
+      "password": "passUser",
+      "pastReservations": "reservationId1,reservationId2",
+      "payment": {
+        "creditCard": {
+          "cardNumber": 1234,
+          "cvv": 123,
+          "expirationDate": "12/25"
+        },
+        "inRestaurant": {
+          "serviceAmount": ""
+        }
+      }
+    },
+    "userId2": {
+      "email": "",
+      "feedback": {
+        "feedbackId2": {
+          "comment": "Room for improvement.",
+          "stars": 3
+        }
+      },
+      "fullName": "",
+      "password": "",
+      "pastReservations": "",
+      "payment": {
+        "creditCard": {
+          "cardNumber": 2121,
+          "cvv": 217,
+          "expirationDate": "21/7",
+          "serviceAmount": ""
+        },
+        "inRestaurant": {
+          "serviceAmount": ""
+        }
+      },
+      "phoneNumber": ""
+    }
+  }
+}
