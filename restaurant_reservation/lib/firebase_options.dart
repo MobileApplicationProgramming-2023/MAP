@@ -44,41 +44,37 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyCQYS8HmiEN-lgVsx3_btWPNgO9jpSqRCg',
-    appId: '1:47252981347:web:78916ce9f5af03b18e5a56',
-    messagingSenderId: '47252981347',
-    projectId: 'mapdb-f6986',
-    authDomain: 'mapdb-f6986.firebaseapp.com',
-    databaseURL: 'https://mapdb-f6986-default-rtdb.firebaseio.com',
-    storageBucket: 'mapdb-f6986.appspot.com',
+    apiKey: 'AIzaSyDe3c2zaQsYC2GKxcoJWD1__LKsDT-rmoc',
+    appId: '1:661374301254:web:f2d574a6342624ae1cc647',
+    messagingSenderId: '661374301254',
+    projectId: 'restreservedb',
+    authDomain: 'restreservedb.firebaseapp.com',
+    storageBucket: 'restreservedb.appspot.com',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBL5K78bBnP0xtoABiApy50C2SIQLQ3Z0c',
-    appId: '1:47252981347:android:12da6e18957970b98e5a56',
-    messagingSenderId: '47252981347',
-    projectId: 'mapdb-f6986',
-    databaseURL: 'https://mapdb-f6986-default-rtdb.firebaseio.com',
-    storageBucket: 'mapdb-f6986.appspot.com',
+    apiKey: 'AIzaSyCYIbzaFt_zXCDT0qYR16iLOaoNLD24-HM',
+    appId: '1:661374301254:android:e216864c8a1330b41cc647',
+    messagingSenderId: '661374301254',
+    projectId: 'restreservedb',
+    storageBucket: 'restreservedb.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyCJBX1-tactGteaRYrjZt4ayGGLla-9Sso',
-    appId: '1:47252981347:ios:eb65e4f33a1657ea8e5a56',
-    messagingSenderId: '47252981347',
-    projectId: 'mapdb-f6986',
-    databaseURL: 'https://mapdb-f6986-default-rtdb.firebaseio.com',
-    storageBucket: 'mapdb-f6986.appspot.com',
+    apiKey: 'AIzaSyDBUCZCTjC-K1p6uf50zhmD7m_c0DErVE4',
+    appId: '1:661374301254:ios:f92b70a5308ee7fd1cc647',
+    messagingSenderId: '661374301254',
+    projectId: 'restreservedb',
+    storageBucket: 'restreservedb.appspot.com',
     iosBundleId: 'com.example.restaurantReservation',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyCJBX1-tactGteaRYrjZt4ayGGLla-9Sso',
-    appId: '1:47252981347:ios:0161fd61e192ebd48e5a56',
-    messagingSenderId: '47252981347',
-    projectId: 'mapdb-f6986',
-    databaseURL: 'https://mapdb-f6986-default-rtdb.firebaseio.com',
-    storageBucket: 'mapdb-f6986.appspot.com',
+    apiKey: 'AIzaSyDBUCZCTjC-K1p6uf50zhmD7m_c0DErVE4',
+    appId: '1:661374301254:ios:ffc8970c8beeb00b1cc647',
+    messagingSenderId: '661374301254',
+    projectId: 'restreservedb',
+    storageBucket: 'restreservedb.appspot.com',
     iosBundleId: 'com.example.restaurantReservation.RunnerTests',
   );
 }
