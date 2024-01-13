@@ -2,14 +2,27 @@ class Manager {
   final String id;
   final String username;
   final String password;
-  final String restName;
-  final String restId; // Reference to the corresponding restaurant
 
   Manager({
     required this.id,
     required this.username,
     required this.password,
-    required this.restName,
-    required this.restId,
   });
+  factory Manager.fromJson(Map<String, dynamic> json){
+    return Manager(id: json['id'] ?? '', username: json['username'] ?? '', password: json['password'] ?? '');
+  }
+  Map<String, dynamic> toJson(){
+    return{
+      'id':id,
+      'username':username,
+      'password':password,
+    };
+  }
+  factory Manager.fromMap(Map<String, dynamic> map){
+    return Manager(
+      id: map['id'],
+       username: map['username'],
+        password: map['password']
+        );
+  }
 }
