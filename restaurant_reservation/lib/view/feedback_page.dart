@@ -33,7 +33,6 @@ class FeedbackPage extends StatelessWidget {
                     ),
                     onPressed: () {
                       viewModel.updateStars(index);
-                      
                     },
                   );
                 }),
@@ -51,7 +50,6 @@ class FeedbackPage extends StatelessWidget {
               ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: Colors.blueGrey),
                 onPressed: () {
                   if (viewModel.isFeedbackValid()) {
-                    var feedback = viewModel.getFeedbackModel();
 
                     Navigator.pushReplacementNamed(context, '/feedbackSuccess');
                   } else {

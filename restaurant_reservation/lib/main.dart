@@ -17,7 +17,6 @@ import 'view/signup_page.dart';
 import 'viewmodel/feedback_success_viewmodel.dart';
 import 'viewmodel/restaurant_profile_viewmodel.dart';
 import 'model/restaurant_profile_model.dart';
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
