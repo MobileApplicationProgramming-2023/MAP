@@ -17,6 +17,9 @@ import 'view/signup_page.dart';
 import 'viewmodel/feedback_success_viewmodel.dart';
 import 'viewmodel/restaurant_profile_viewmodel.dart';
 import 'model/restaurant_profile_model.dart';
+import 'package:provider/provider.dart';
+import 'package:restaurant_reservation/viewmodel/signup_viewmodel.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -32,8 +35,12 @@ class MyApp extends StatelessWidget {
     final restaurantProfileViewModel = RestaurantProfileViewModel(model: RestaurantProfileModel(name: '', information: ''));
     
 
-    return MaterialApp(
-      initialRoute: '/',
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) =>  SignUpViewModel()),
+
+      ],
+      child: MaterialApp( initialRoute: '/',
       routes: {
         '/login': (context) => SignInPage(),
         '/signup': (context) => SignUpPage(),
@@ -50,6 +57,7 @@ class MyApp extends StatelessWidget {
       },
       debugShowCheckedModeBanner: false,
       home: WelcomePage(viewModel: welcomeViewModel),
+    )
     );
   }
 }
