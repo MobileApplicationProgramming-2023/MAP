@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-class FeedbackSuccessViewModel {
+class FeedbackSuccessViewModel extends ChangeNotifier{
 
   Future<void> navigateBack(BuildContext context) async {
     await Future.delayed(const Duration(seconds: 4)); 

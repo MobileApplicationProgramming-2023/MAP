@@ -5,14 +5,12 @@ import '../model/account_details_model.dart';
 class AccountDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // Create an instance of AccountDetailsModel with dummy data
     var accountDetailsModel = AccountDetailsModel(
       fullName: 'John Doe',
       email: 'Johndoe12@example.com',
       pastReservations: ['Reservation 1', 'Reservation 2', 'Reservation 3'],
     );
 
-    // Provide the view model to the widget tree
     return ChangeNotifierProvider(
       create: (context) => AccountDetailsViewModel(accountDetails: accountDetailsModel),
       child: _AccountDetailsPageContent(),
@@ -21,9 +19,10 @@ class AccountDetailsPage extends StatelessWidget {
 }
 
 class _AccountDetailsPageContent extends StatelessWidget {
+  
   @override
   Widget build(BuildContext context) {
-    // Access the view model from the widget tree
+    
     var viewModel = Provider.of<AccountDetailsViewModel>(context);
 
     return Scaffold(

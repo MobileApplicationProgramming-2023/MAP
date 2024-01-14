@@ -3,12 +3,18 @@ import 'package:restaurant_reservation/viewmodel/restaurant_list_viewmodel.dart'
 import 'feedback_page.dart';
 import 'reserve_table_page.dart';
 import 'local_restaurants_page.dart';
+import 'package:provider/provider.dart';
+
 
 class RestaurantListPage extends StatelessWidget {
   final RestaurantListViewModel _viewModel = RestaurantListViewModel();
 
   @override
   Widget build(BuildContext context) {
+    final RestaurantListViewModel viewModel =
+        Provider.of<RestaurantListViewModel>(context, listen: false);
+    final RestaurantListPage viewModel =
+        Provider.of<RestaurantListPage>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blueGrey,

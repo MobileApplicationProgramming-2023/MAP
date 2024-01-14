@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import '../viewmodel/feedback_page_viewmodel.dart';
+import 'package:provider/provider.dart';
+
 class FeedbackPage extends StatelessWidget {
   final FeedbackViewModel viewModel = FeedbackViewModel(); 
 
   @override
   Widget build(BuildContext context) {
+    final FeedbackViewModel viewModel =
+        Provider.of<FeedbackViewModel>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Give Feedback'),

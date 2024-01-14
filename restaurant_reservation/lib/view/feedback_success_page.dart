@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../viewmodel/feedback_success_viewmodel.dart';
+import 'package:provider/provider.dart';
+
 class FeedbackSuccessPage extends StatelessWidget {
   final FeedbackSuccessViewModel viewModel;
 
@@ -7,6 +9,8 @@ class FeedbackSuccessPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final FeedbackSuccessViewModel viewModel =
+        Provider.of<FeedbackSuccessViewModel>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Feedback Submitted'),

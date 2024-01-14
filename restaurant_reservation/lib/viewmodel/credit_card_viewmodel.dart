@@ -1,6 +1,7 @@
 import '../model/credit_card_model.dart';
+import 'package:flutter/material.dart';
 
-class CreditCardViewModel {
+class CreditCardViewModel extends ChangeNotifier{
   CreditCardModel creditCard = CreditCardModel();
 
   void updateCardNumber(String value) {

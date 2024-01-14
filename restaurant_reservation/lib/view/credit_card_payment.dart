@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'reservation_success_alert.dart';
-import '../../model/credit_card_model.dart';  // Import the CreditCardModel
+import '../../model/credit_card_model.dart';  
+import 'package:provider/provider.dart';
 
 class CreditCardPaymentPage extends StatefulWidget {
   @override
@@ -8,10 +9,12 @@ class CreditCardPaymentPage extends StatefulWidget {
 }
 
 class _CreditCardPaymentPageState extends State<CreditCardPaymentPage> {
-  CreditCardModel _creditCard = CreditCardModel();  // Initialize the CreditCardModel
+  CreditCardModel _creditCard = CreditCardModel();  
 
   @override
   Widget build(BuildContext context) {
+    final _CreditCardPaymentPageState viewModel =
+        Provider.of<_CreditCardPaymentPageState>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blueGrey,
@@ -24,7 +27,6 @@ class _CreditCardPaymentPageState extends State<CreditCardPaymentPage> {
           children: [
             TextFormField(
               onChanged: (value) {
-                // Update cardNumber in the ViewModel when the text changes
                 _creditCard.cardNumber = value;
               },
               decoration: const InputDecoration(labelText: 'Card Number'),
@@ -36,7 +38,6 @@ class _CreditCardPaymentPageState extends State<CreditCardPaymentPage> {
                 Expanded(
                   child: TextFormField(
                     onChanged: (value) {
-                      // Update expirationDate in the ViewModel when the text changes
                       _creditCard.expirationDate = value;
                     },
                     decoration: const InputDecoration(labelText: 'Expiration Date'),

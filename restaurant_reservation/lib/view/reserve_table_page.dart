@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'select_payment_method.dart';
 import '../viewmodel/reserve_table_viewmodel.dart';
+import 'package:provider/provider.dart';
 
 class ReserveTablePage extends StatelessWidget {
   final ReserveTableViewModel _viewModel = ReserveTableViewModel();
 
   @override
   Widget build(BuildContext context) {
+    final ReserveTableViewModel viewModel =
+        Provider.of<ReserveTableViewModel>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blueGrey,

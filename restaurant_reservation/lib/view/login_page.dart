@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:restaurant_reservation/viewmodel/login_viewmodel.dart';
 import 'restaurant_list_page.dart';
+import 'package:provider/provider.dart';
+
 class SignInPage extends StatefulWidget {
   const SignInPage({Key? key});
 
@@ -13,6 +15,8 @@ class _SignInPageState extends State<SignInPage> {
 
   @override
   Widget build(BuildContext context) {
+    final SignUpPage viewModel =
+        Provider.of<SignUpPage>(context, listen: false);
     return Scaffold(
 appBar: AppBar(
         backgroundColor: Colors.blueGrey,
