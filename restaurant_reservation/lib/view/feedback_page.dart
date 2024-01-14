@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../viewmodel/feedback_page_viewmodel.dart';
 import 'package:provider/provider.dart';
-
+import '../model/feedback.dart';
 class FeedbackPage extends StatelessWidget {
   final FeedbackViewModel viewModel = FeedbackViewModel(); 
 
@@ -52,9 +52,9 @@ class FeedbackPage extends StatelessWidget {
               ),
               const SizedBox(height: 16),
               ElevatedButton(style: ElevatedButton.styleFrom(backgroundColor: Colors.blueGrey),
-                onPressed: () {
+                onPressed: () async {
                   if (viewModel.isFeedbackValid()) {
-
+                    await saveFeedbackToDatabase(viewModel);
                     Navigator.pushReplacementNamed(context, '/feedbackSuccess');
                   } else {
                     showDialog(
@@ -81,5 +81,11 @@ class FeedbackPage extends StatelessWidget {
         ),
       ),
     );
+  }
+  Future<void> saveFeedbackToDatabase(FeedbackViewModel viewModel) async {
+     dad.instance.collection('feedback').add({
+       'stars': viewModel.selectedStars,
+     'comment': viewModel.feedbackController.text,
+     });
   }
 }
