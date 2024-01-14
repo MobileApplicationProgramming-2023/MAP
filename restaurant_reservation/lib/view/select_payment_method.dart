@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'reservation_success_alert.dart';
 import '../model/payment_method.dart';
+import 'package:provider/provider.dart';
 
 class SelectPaymentMethod extends StatelessWidget {
   final List<PaymentMethod> paymentMethods = [

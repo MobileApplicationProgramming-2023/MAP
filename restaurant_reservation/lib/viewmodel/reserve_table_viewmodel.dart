@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class ReserveTableViewModel {
+class ReserveTableViewModel extends ChangeNotifier{
   final ValueNotifier<DateTime?> selectedDate = ValueNotifier<DateTime?>(null);
   final ValueNotifier<TimeOfDay?> selectedTime = ValueNotifier<TimeOfDay?>(null);
   final ValueNotifier<int> numberOfGuests = ValueNotifier<int>(1);

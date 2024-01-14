@@ -11,8 +11,8 @@ class RestaurantListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final RestaurantListViewModel viewModel =
-        Provider.of<RestaurantListViewModel>(context, listen: false);
+    final RestaurantListPage viewModel =
+        Provider.of<RestaurantListPage>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blueGrey,
