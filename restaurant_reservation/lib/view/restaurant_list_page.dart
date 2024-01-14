@@ -95,7 +95,7 @@ class RestaurantListPage extends StatelessWidget {
 }
 
 class RestaurantListItem extends StatelessWidget {
-  final  Restaurant viewModel;
+  final Restaurant viewModel;
   final VoidCallback onFeedbackTap;
   final VoidCallback onReserveTap;
 
@@ -111,10 +111,10 @@ class RestaurantListItem extends StatelessWidget {
       margin: const EdgeInsets.all(8.0),
       child: ListTile(
         leading: CircleAvatar(
-          backgroundImage: NetworkImage(viewModel.logo), // Replace with the actual property from your Restaurant model
+          backgroundImage: NetworkImage(viewModel.logo),
         ),
         title: Text(viewModel.name),
-        subtitle: Text(viewModel.desc), // Replace with the actual property from your Restaurant model
+        subtitle: Text(viewModel.desc),
         trailing: IconButton(
           icon: const Icon(Icons.rate_review),
           onPressed: onFeedbackTap,
