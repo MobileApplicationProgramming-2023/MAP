@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:restaurant_reservation/viewmodel/signup_viewmodel.dart';
 import 'login_page.dart';
-import 'package:provider/provider.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({Key? key});
@@ -15,10 +15,9 @@ class _SignUpPageState extends State<SignUpPage> {
 
   @override
   Widget build(BuildContext context) {
-     final SignUpPage viewModel =
-        Provider.of<SignUpPage>(context, listen: false);
+    final viewModel = Provider.of<SignUpViewModel>(context);
     return Scaffold(
-    backgroundColor: Colors.white,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: const Text('Sign Up'),
         backgroundColor: Colors.blueGrey[500],
@@ -29,7 +28,6 @@ class _SignUpPageState extends State<SignUpPage> {
           },
         ),
       ),
-
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -42,26 +40,25 @@ class _SignUpPageState extends State<SignUpPage> {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 16),
-
               TextFieldWithIcon(
                 label: 'Email',
                 icon: Icons.email,
-                controller: _viewModel.emailController,
+                onChanged: (value) => viewModel.setEmail(value), 
               ),
               TextFieldWithIcon(
                 label: 'UserName',
                 icon: Icons.person,
-                controller: _viewModel.usernameController,
+                onChanged: (value) => viewModel.setName(value), 
               ),
               TextFieldWithIcon(
                 label: 'Phone Number',
                 icon: Icons.phone,
-                controller: _viewModel.phoneNumberController,
+                onChanged: (value) => viewModel.setPhonenumber(int.parse(value)),
               ),
               TextFieldWithIcon(
                 label: 'Password',
                 icon: Icons.lock,
-                controller: _viewModel.passwordController,
+                onChanged: (value) => viewModel.setPassword(value),
               ),
               Row(
                 children: [
@@ -74,7 +71,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   const Text('Keep me signed in on this phone'),
                 ],
               ),
-const SizedBox(height: 16),
+              const SizedBox(height: 16),
               const Text('Already a Member?',
                   style: TextStyle(fontWeight: FontWeight.bold)),
               InkWell(
@@ -86,10 +83,11 @@ const SizedBox(height: 16),
                 },
                 child: const Text('Click here',
                     style: TextStyle(
-                        fontWeight: FontWeight.bold, color: Colors.pink,fontSize: 15)),
+                        fontWeight: FontWeight.bold,
+                        color: Colors.pink,
+                        fontSize: 15)),
               ),
               const SizedBox(height: 16),
-
               ElevatedButton(
                 onPressed: () {
                   if (_viewModel.isInputValid) {
@@ -133,16 +131,17 @@ const SizedBox(height: 16),
     );
   }
 }
+
 class TextFieldWithIcon extends StatelessWidget {
   final String label;
   final IconData icon;
-  final TextEditingController controller;
+  final void Function(String) onChanged;
 
   const TextFieldWithIcon({
     super.key,
     required this.label,
     required this.icon,
-    required this.controller,
+    required this.onChanged,
   });
 
   @override
@@ -150,7 +149,8 @@ class TextFieldWithIcon extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 8),
       child: TextField(
-        controller: controller,
+        onChanged: onChanged,
+   
         decoration: InputDecoration(
           labelText: label,
           border: OutlineInputBorder(
@@ -160,8 +160,7 @@ class TextFieldWithIcon extends StatelessWidget {
           filled: true,
           fillColor: Colors.white,
         ),
-      ),
-    );
-  }
+     ),
+);
 }
-
+}

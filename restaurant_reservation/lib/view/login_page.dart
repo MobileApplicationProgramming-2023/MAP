@@ -15,8 +15,8 @@ class _SignInPageState extends State<SignInPage> {
 
   @override
   Widget build(BuildContext context) {
-    final SignUpPage viewModel =
-        Provider.of<SignUpPage>(context, listen: false);
+    final SignInPage viewModel =
+        Provider.of<SignInPage>(context, listen: false);
     return Scaffold(
 appBar: AppBar(
         backgroundColor: Colors.blueGrey,
