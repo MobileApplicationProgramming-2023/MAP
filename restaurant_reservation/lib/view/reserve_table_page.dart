@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'select_payment_method.dart';
-import '../viewmodel/reserve_table_viewmodel.dart';
 import 'package:provider/provider.dart';
+import 'package:restaurant_reservation/viewmodel/reserve_table_viewmodel.dart';
+import 'package:restaurant_reservation/model/reservation.dart';
+import 'select_payment_method.dart';
 
 class ReserveTablePage extends StatelessWidget {
-  final ReserveTableViewModel _viewModel = ReserveTableViewModel();
-
   @override
   Widget build(BuildContext context) {
     final ReserveTableViewModel viewModel =
@@ -29,12 +28,12 @@ class ReserveTablePage extends StatelessWidget {
                     style: TextStyle(fontSize: 18,),
                   ),
                   ElevatedButton(
-                    onPressed: () => _viewModel.selectDate(context),
+                    onPressed: () => viewModel.selectDate(context),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.blueGrey
                     ),
-                    child: Text(_viewModel.selectedDate.value != null
-                        ? '${_viewModel.selectedDate.value!.day}/${_viewModel.selectedDate.value!.month}/${_viewModel.selectedDate.value!.year}'
+                    child: Text(viewModel.selectedDate.value != null
+                        ? '${viewModel.selectedDate.value!.day}/${viewModel.selectedDate.value!.month}/${viewModel.selectedDate.value!.year}'
                         : 'Select Date',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
                   ),
                 ],
@@ -49,9 +48,9 @@ class ReserveTablePage extends StatelessWidget {
                   ),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(backgroundColor: Colors.blueGrey),
-                    onPressed: () => _viewModel.selectTime(context),
-                    child: Text(_viewModel.selectedTime.value != null
-                        ? '${_viewModel.selectedTime.value!.hour}:${_viewModel.selectedTime.value!.minute}'
+                    onPressed: () => viewModel.selectTime(context),
+                    child: Text(viewModel.selectedTime.value != null
+                        ? '${viewModel.selectedTime.value!.hour}:${viewModel.selectedTime.value!.minute}'
                         : 'Select Time',style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold)),
                   ),
                 ],
@@ -68,14 +67,14 @@ class ReserveTablePage extends StatelessWidget {
                     children: [
                       IconButton(
                         onPressed: () {
-                          _viewModel.decrementGuests();
+                          viewModel.decrementGuests();
                         },
                         icon: const Icon(Icons.remove),
                       ),
-                      Text('${_viewModel.numberOfGuests.value}'),
+                      Text('${viewModel.numberOfGuests.value}'),
                       IconButton(
                         onPressed: () {
-                          _viewModel.incrementGuests();
+                          viewModel.incrementGuests();
                         },
                         icon: const Icon(Icons.add),
                       ),
@@ -89,16 +88,16 @@ class ReserveTablePage extends StatelessWidget {
                   const Text('(Optional)', style: TextStyle(fontSize: 16)),
                   Row(
                     children: [
-                      Checkbox(value: _viewModel.insideChecked.value, onChanged: (newBool1) {
-                        _viewModel.insideChecked.value = newBool1!;
+                      Checkbox(value: viewModel.insideChecked.value, onChanged: (newBool1) {
+                        viewModel.insideChecked.value = newBool1!;
                       }),
                       const Text('Inside'),
-                      Checkbox(value: _viewModel.eventZoneChecked.value, onChanged: (newBool2) {
-                        _viewModel.eventZoneChecked.value = newBool2!;
+                      Checkbox(value: viewModel.eventZoneChecked.value, onChanged: (newBool2) {
+                        viewModel.eventZoneChecked.value = newBool2!;
                       }),
                       const Text('Event Zone'),
-                      Checkbox(value: _viewModel.outsideChecked.value, onChanged: (newBool3) {
-                        _viewModel.outsideChecked.value = newBool3!;
+                      Checkbox(value: viewModel.outsideChecked.value, onChanged: (newBool3) {
+                        viewModel.outsideChecked.value = newBool3!;
                       }),
                       const Text('Outside'),
                     ],
@@ -113,11 +112,16 @@ class ReserveTablePage extends StatelessWidget {
               const Text('(Optional)',style: TextStyle(fontSize: 16)),
               TextFormField(
                 maxLines: 3,
+                onChanged: (value) {
+                  viewModel.specialRequest.value = value;
+                },
               ),
               const SizedBox(height: 70),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => SelectPaymentMethod()));              },
+                  viewModel.reserveTable();
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => SelectPaymentMethod()));
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.blueGrey,
                 ),

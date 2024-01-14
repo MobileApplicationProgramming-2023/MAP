@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
-
+import 'package:restaurant_reservation/model/reservation.dart';
+/*
 class OwnerRequestListViewModel extends ChangeNotifier {
   final List<Reservation> _reservationRequests = [
     Reservation(
@@ -46,4 +47,7 @@ class Reservation {
     required this.dateTime,
     required this.numberOfGuests,
   });
+ 
 }
+*/
+ 
