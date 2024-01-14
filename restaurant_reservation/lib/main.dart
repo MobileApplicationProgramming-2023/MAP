@@ -16,10 +16,9 @@ import 'view/restaurant_profile.dart';
 import 'view/signup_page.dart';
 import 'viewmodel/feedback_success_viewmodel.dart';
 import 'viewmodel/restaurant_profile_viewmodel.dart';
-import 'model/restaurant_profile_model.dart';
+import 'model/restaurant.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_reservation/viewmodel/signup_viewmodel.dart';
-import 'package:restaurant_reservation/viewmodel/login_viewmodel.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -33,21 +32,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final welcomeViewModel = WelcomeViewModel(context);
-    final restaurantProfileViewModel = RestaurantProfileViewModel(model: RestaurantProfileModel(name: '', information: ''));
+    final restaurantProfileViewModel = RestaurantProfileViewModel(model: Restaurant(id: '', name: '', logo:'', desc: ''));
     
 
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) =>  SignUpViewModel()),
-        ChangeNotifierProvider(create: (_) =>  SignInViewModel()),
-        ChangeNotifierProvider(create: (_) =>  SignUpViewModel()),
-        ChangeNotifierProvider(create: (_) =>  SignUpViewModel()),
-        ChangeNotifierProvider(create: (_) =>  SignUpViewModel()),
-        ChangeNotifierProvider(create: (_) =>  SignUpViewModel()),
-        ChangeNotifierProvider(create: (_) =>  SignUpViewModel()),
-        ChangeNotifierProvider(create: (_) =>  SignUpViewModel()),
-        ChangeNotifierProvider(create: (_) =>  SignUpViewModel()),
-        ChangeNotifierProvider(create: (_) =>  SignUpViewModel()),
+
       ],
       child: MaterialApp( initialRoute: '/',
       routes: {

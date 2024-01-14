@@ -44,6 +44,7 @@ appBar: AppBar(
                 label: 'Email',
                 icon: Icons.email,
                 controller: _viewModel.emailController,
+                
               ),
               TextField(
                 controller: _viewModel.passwordController,

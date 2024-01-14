@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'restaurant_list_page.dart';
 import '../viewmodel/reservation_success_viewmodel.dart';
 
 class ReservationSuccessPage extends StatelessWidget {

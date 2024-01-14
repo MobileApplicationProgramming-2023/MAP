@@ -1,10 +1,22 @@
 import 'package:flutter/material.dart';
-import '../viewmodel/feedback_page_viewmodel.dart';
 import 'package:provider/provider.dart';
-import '../model/feedback.dart';
-class FeedbackPage extends StatelessWidget {
-  final FeedbackViewModel viewModel = FeedbackViewModel(); 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import '../viewmodel/feedback_page_viewmodel.dart';
 
+class FeedbackPage extends StatelessWidget {
+  Future<void> saveFeedbackToDatabase(FeedbackViewModel viewModel) async {
+    try {
+      CollectionReference feedbackCollection =
+          FirebaseFirestore.instance.collection('feedback');
+
+      await feedbackCollection.add(
+        viewModel.getFeedbackModel().toFirestore(),
+      );
+    } catch (e) {
+      print('Error saving feedback: $e');
+      // Handle error accordingly
+    }
+  }
   @override
   Widget build(BuildContext context) {
     final FeedbackViewModel viewModel =
@@ -81,11 +93,5 @@ class FeedbackPage extends StatelessWidget {
         ),
       ),
     );
-  }
-  Future<void> saveFeedbackToDatabase(FeedbackViewModel viewModel) async {
-     dad.instance.collection('feedback').add({
-       'stars': viewModel.selectedStars,
-     'comment': viewModel.feedbackController.text,
-     });
   }
 }

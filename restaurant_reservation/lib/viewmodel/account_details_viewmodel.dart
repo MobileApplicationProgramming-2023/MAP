@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_reservation/model/account_details_model.dart';
-class AccountDetailsViewModel extends ChangeNotifier {
-  final AccountDetailsModel _accountDetails;
+import 'package:restaurant_reservation/model/Customer.dart';
+class CustomerViewModel extends ChangeNotifier {
+  final Customer _customer;
 
-  AccountDetailsViewModel({required AccountDetailsModel accountDetails})
-      : _accountDetails = accountDetails;
+  CustomerViewModel({required Customer customer})
+      : _customer = customer;
 
-  String get fullName => _accountDetails.fullName;
-  String get email => _accountDetails.email;
-  List<String> get pastReservations => _accountDetails.pastReservations;
+  String get id => _customer.id;
+  String get name=> _customer.name;
+  String get phoneNumber=> _customer.phoneNumber;
+  List<String> get pastReserve=>_customer.pastReserve;
+  String get username=>_customer.username;
+  String get password=>_customer.password;
+  String get email => _customer.email;
 }

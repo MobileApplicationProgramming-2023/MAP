@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_reservation/model/feedback_model.dart';
+import 'package:restaurant_reservation/model/feedback.dart' as UserFeedback;
+
 class FeedbackViewModel extends ChangeNotifier {
   int _selectedStars = 0;
   final TextEditingController _feedbackController = TextEditingController();
@@ -16,7 +17,7 @@ class FeedbackViewModel extends ChangeNotifier {
     return _selectedStars > 0;
   }
 
-  FeedbackModel getFeedbackModel() {
-    return FeedbackModel(stars: _selectedStars, comment: _feedbackController.text);
+  UserFeedback.Feedback getFeedbackModel() {
+    return UserFeedback.Feedback(stars: _selectedStars, comment: _feedbackController.text, idfeedback: '');
   }
 }

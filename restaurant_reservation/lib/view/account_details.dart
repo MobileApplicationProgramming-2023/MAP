@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../viewmodel/account_details_viewmodel.dart';
-import '../model/account_details_model.dart';
+import '../model/customer.dart';
 class AccountDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var accountDetailsModel = AccountDetailsModel(
-      fullName: 'John Doe',
+    var accountDetailsModel = Customer(
+      id: '001',
       email: 'Johndoe12@example.com',
       pastReservations: ['Reservation 1', 'Reservation 2', 'Reservation 3'],
     );
 
     return ChangeNotifierProvider(
-      create: (context) => AccountDetailsViewModel(accountDetails: accountDetailsModel),
+      create: (context) => CustomerViewModel(accountDetails: accountDetailsModel),
       child: _AccountDetailsPageContent(),
     );
   }
@@ -23,7 +23,7 @@ class _AccountDetailsPageContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     
-    var viewModel = Provider.of<AccountDetailsViewModel>(context);
+    var viewModel = Provider.of<CustomerViewModel>(context);
 
     return Scaffold(
       appBar: AppBar(
