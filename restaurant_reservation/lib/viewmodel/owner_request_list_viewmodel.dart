@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-
+import'../model/reservation.dart';
 class OwnerRequestListViewModel extends ChangeNotifier {
   final List<Reservation> _reservationRequests = [
     Reservation(
@@ -36,14 +36,3 @@ class OwnerRequestListViewModel extends ChangeNotifier {
   }
 }
 
-class Reservation {
-  final String userName;
-  final DateTime dateTime;
-  final int numberOfGuests;
-
-  Reservation({
-    required this.userName,
-    required this.dateTime,
-    required this.numberOfGuests,
-  });
-}
