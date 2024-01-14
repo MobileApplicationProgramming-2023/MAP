@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:restaurant_reservation/model/restaurant.dart';
 import 'package:restaurant_reservation/viewmodel/restaurant_list_viewmodel.dart';
 import 'feedback_page.dart';
 import 'reserve_table_page.dart';
 import 'local_restaurants_page.dart';
 import 'package:provider/provider.dart';
 
-
 class RestaurantListPage extends StatelessWidget {
-  final RestaurantListViewModel _viewModel = RestaurantListViewModel();
-
   @override
   Widget build(BuildContext context) {
-    final RestaurantListPage viewModel =
-        Provider.of<RestaurantListPage>(context, listen: false);
+    final RestaurantListViewModel _viewModel =
+        Provider.of<RestaurantListViewModel>(context);
+
+    // Call fetchRestaurants when the widget is first built
+    _viewModel.fetchRestaurants();
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blueGrey,
@@ -24,7 +26,7 @@ class RestaurantListPage extends StatelessWidget {
           },
         ),
       ),
-      body: ValueListenableBuilder<List<RestaurantItemViewModel>>(
+      body: ValueListenableBuilder<List<Restaurant>>(
         valueListenable: _viewModel.restaurantsNotifier,
         builder: (context, restaurants, _) {
           return ListView.builder(
@@ -93,7 +95,7 @@ class RestaurantListPage extends StatelessWidget {
 }
 
 class RestaurantListItem extends StatelessWidget {
-  final RestaurantItemViewModel viewModel;
+  final  Restaurant viewModel;
   final VoidCallback onFeedbackTap;
   final VoidCallback onReserveTap;
 
@@ -109,10 +111,10 @@ class RestaurantListItem extends StatelessWidget {
       margin: const EdgeInsets.all(8.0),
       child: ListTile(
         leading: CircleAvatar(
-          backgroundImage: NetworkImage(viewModel.imageUrl),
+          backgroundImage: NetworkImage(viewModel.logo), // Replace with the actual property from your Restaurant model
         ),
         title: Text(viewModel.name),
-        subtitle: Text(viewModel.typeOfFood),
+        subtitle: Text(viewModel.desc), // Replace with the actual property from your Restaurant model
         trailing: IconButton(
           icon: const Icon(Icons.rate_review),
           onPressed: onFeedbackTap,
