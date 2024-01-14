@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../viewmodel/restaurant_profile_viewmodel.dart';
+import 'package:provider/provider.dart';
 
 class RestaurantProfilePage extends StatelessWidget {
   final RestaurantProfileViewModel viewModel;
@@ -8,6 +9,8 @@ class RestaurantProfilePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final RestaurantProfileViewModel viewModel =
+        Provider.of<RestaurantProfileViewModel>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blueGrey,

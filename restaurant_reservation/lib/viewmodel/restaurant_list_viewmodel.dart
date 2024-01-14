@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class RestaurantListViewModel {
+class RestaurantListViewModel extends ChangeNotifier {
   final ValueNotifier<List<RestaurantItemViewModel>> restaurantsNotifier =
       ValueNotifier<List<RestaurantItemViewModel>>([]);
 

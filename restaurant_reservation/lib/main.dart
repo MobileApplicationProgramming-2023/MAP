@@ -19,6 +19,7 @@ import 'viewmodel/restaurant_profile_viewmodel.dart';
 import 'model/restaurant_profile_model.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_reservation/viewmodel/signup_viewmodel.dart';
+import 'package:restaurant_reservation/viewmodel/login_viewmodel.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,7 +39,15 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) =>  SignUpViewModel()),
-
+        ChangeNotifierProvider(create: (_) =>  SignInViewModel()),
+        ChangeNotifierProvider(create: (_) =>  SignUpViewModel()),
+        ChangeNotifierProvider(create: (_) =>  SignUpViewModel()),
+        ChangeNotifierProvider(create: (_) =>  SignUpViewModel()),
+        ChangeNotifierProvider(create: (_) =>  SignUpViewModel()),
+        ChangeNotifierProvider(create: (_) =>  SignUpViewModel()),
+        ChangeNotifierProvider(create: (_) =>  SignUpViewModel()),
+        ChangeNotifierProvider(create: (_) =>  SignUpViewModel()),
+        ChangeNotifierProvider(create: (_) =>  SignUpViewModel()),
       ],
       child: MaterialApp( initialRoute: '/',
       routes: {
