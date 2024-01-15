@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final welcomeViewModel = WelcomeViewModel(context);
-    final restaurantProfileViewModel = RestaurantProfileViewModel(model: Restaurant(id: '', name: '', logo:'', desc: ''));
+    final restaurantProfileViewModel = RestaurantProfileViewModel(model: Restaurant(id: '', name: '', logo:'', desc: '', role: ''));
     
 
     return MultiProvider(
