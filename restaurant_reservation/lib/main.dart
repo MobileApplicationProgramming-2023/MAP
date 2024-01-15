@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
         '/reservationSuccess': (context) => ReservationSuccessPage(),
         '/creditCardPayment': (context) => CreditCardPaymentPage(),
         '/ownerRequestList': (context) => OwnerRequestListPage(),
-        '/restaurantProfilePage': (context) => RestaurantProfilePage(viewModel: restaurantProfileViewModel),
+        '/restaurantProfilePage': (context) => RestaurantProfilePage(viewModel: restaurantProfileViewModel, restaurantId: '',),
         
       },
       debugShowCheckedModeBanner: false,
