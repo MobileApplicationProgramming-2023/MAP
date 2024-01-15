@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_reservation/viewmodel/reserve_table_viewmodel.dart';
-import 'package:restaurant_reservation/model/reservation.dart';
 import 'select_payment_method.dart';
 
 class ReserveTablePage extends StatelessWidget {
