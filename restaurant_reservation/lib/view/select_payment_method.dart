@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'reservation_success_alert.dart';
 import '../model/payment_method.dart';
 import 'package:provider/provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SelectPaymentMethod extends StatelessWidget {
   final List<PaymentMethod> paymentMethods = [
-    PaymentMethod(name: 'Pay at Restaurant', description: 'Pay when you arrive'),
+    PaymentMethod(
+        name: 'Pay at Restaurant', description: 'Pay when you arrive'),
     PaymentMethod(name: 'Credit Card', description: 'Secure online payment'),
   ];
 
@@ -30,23 +32,45 @@ class SelectPaymentMethod extends StatelessWidget {
               const SizedBox(height: 32),
               for (var method in paymentMethods)
                 ElevatedButton(
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.blueGrey),
-                  onPressed: () {
+                  style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blueGrey),
+                  onPressed: () async {
                     if (method.name == 'Pay at Restaurant') {
+                      await savePaymentMethodToDatabase(method);
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => ReservationSuccessPage()),
+                        MaterialPageRoute(
+                            builder: (context) => ReservationSuccessPage()),
                       );
                     } else if (method.name == 'Credit Card') {
-                      Navigator.pushReplacementNamed(context, '/creditCardPayment');
+                      await savePaymentMethodToDatabase(method);
+                      Navigator.pushReplacementNamed(
+                          context, '/creditCardPayment');
                     }
                   },
-                  child: Text(method.name, style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+                  child: Text(method.name,
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.bold)),
                 ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  Future<void> savePaymentMethodToDatabase(PaymentMethod method) async {
+    try {
+      CollectionReference paymentMethodsCollection =
+          FirebaseFirestore.instance.collection('payment_methods');
+
+      await paymentMethodsCollection.add({
+        'name': method.name,
+        'description': method.description,
+        'timestamp': DateTime.now(),
+      });
+    } catch (e) {
+      print('Error saving payment method: $e');
+    }
   }
 }

@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
 import 'reservation_success_alert.dart';
-import '../../model/credit_card_model.dart';  
+import '../../model/credit_card_INFO.dart';
 import 'package:provider/provider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class CreditCardPaymentPage extends StatefulWidget {
+  final LocalRestaurant localRestaurant;
+
+  CreditCardPaymentPage({required this.localRestaurant});
+
   @override
   _CreditCardPaymentPageState createState() => _CreditCardPaymentPageState();
 }
 
 class _CreditCardPaymentPageState extends State<CreditCardPaymentPage> {
-  CreditCardModel _creditCard = CreditCardModel();  
+  CreditCardModel _creditCard = CreditCardModel();
 
   @override
   Widget build(BuildContext context) {
-    final _CreditCardPaymentPageState viewModel =
-        Provider.of<_CreditCardPaymentPageState>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blueGrey,
@@ -40,14 +43,14 @@ class _CreditCardPaymentPageState extends State<CreditCardPaymentPage> {
                     onChanged: (value) {
                       _creditCard.expirationDate = value;
                     },
-                    decoration: const InputDecoration(labelText: 'Expiration Date'),
+                    decoration:
+                        const InputDecoration(labelText: 'Expiration Date'),
                   ),
                 ),
                 const SizedBox(width: 16),
                 Expanded(
                   child: TextFormField(
                     onChanged: (value) {
-                      // Update cvv in the ViewModel when the text changes
                       _creditCard.cvv = value;
                     },
                     decoration: const InputDecoration(labelText: 'CVV'),
@@ -59,22 +62,39 @@ class _CreditCardPaymentPageState extends State<CreditCardPaymentPage> {
             const SizedBox(height: 32),
             ElevatedButton(
               style: ElevatedButton.styleFrom(backgroundColor: Colors.blueGrey),
-              onPressed: () {
-                // Validate the credit card data before proceeding
+              onPressed: () async {
                 if (_creditCard.isValidData()) {
+                  await saveReservationToDatabase();
+
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => ReservationSuccessPage()),
+                    MaterialPageRoute(
+                        builder: (context) => ReservationSuccessPage()),
                   );
-                } else {
-                  // Handle invalid data, show a message, etc.
-                }
+                } else {}
               },
-              child: const Text('Pay Now', style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
+              child: const Text('Pay Now',
+                  style: TextStyle(
+                      color: Colors.black, fontWeight: FontWeight.bold)),
             ),
           ],
         ),
       ),
     );
+  }
+
+  Future<void> saveReservationToDatabase() async {
+    try {
+      CollectionReference reservationsCollection =
+          FirebaseFirestore.instance.collection('reservations');
+
+      await reservationsCollection.add({
+        'localRestaurantName': widget.localRestaurant.name,
+        'localRestaurantTypeOfFood': widget.localRestaurant.typeOfFood,
+        'reservationTime': DateTime.now(),
+      });
+    } catch (e) {
+      print('Error saving reservation: $e');
+    }
   }
 }
