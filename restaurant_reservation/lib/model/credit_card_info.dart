@@ -1,7 +1,7 @@
 class CreditCardInfo {
-  final double Balance;
-  final int CardNumber;
-  final String expireDate;
+   double Balance;
+   int CardNumber;
+   String expireDate;
 
   CreditCardInfo({
     required this.Balance,

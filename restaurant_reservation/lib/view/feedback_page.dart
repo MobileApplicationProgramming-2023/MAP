@@ -14,7 +14,6 @@ class FeedbackPage extends StatelessWidget {
       );
     } catch (e) {
       print('Error saving feedback: $e');
-      // Handle error accordingly
     }
   }
   @override

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'parant_reservatew/local_restaurants_page.dart';
 import 'reservation_success_alert.dart';
 import '../../model/credit_card_INFO.dart';
 import 'package:provider/provider.dart';
@@ -14,7 +15,7 @@ class CreditCardPaymentPage extends StatefulWidget {
 }
 
 class _CreditCardPaymentPageState extends State<CreditCardPaymentPage> {
-  CreditCardModel _creditCard = CreditCardModel();
+  CreditCardInfo _creditCard = CreditCardInfo(Balance: null, CardNumber: null, expireDate: '');
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +31,7 @@ class _CreditCardPaymentPageState extends State<CreditCardPaymentPage> {
           children: [
             TextFormField(
               onChanged: (value) {
-                _creditCard.cardNumber = value;
+                _creditCard.CardNumber = value;
               },
               decoration: const InputDecoration(labelText: 'Card Number'),
               keyboardType: TextInputType.number,
@@ -41,7 +42,7 @@ class _CreditCardPaymentPageState extends State<CreditCardPaymentPage> {
                 Expanded(
                   child: TextFormField(
                     onChanged: (value) {
-                      _creditCard.expirationDate = value;
+                      _creditCard.expireDate = value;
                     },
                     decoration:
                         const InputDecoration(labelText: 'Expiration Date'),
