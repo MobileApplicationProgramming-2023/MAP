@@ -1,16 +1,29 @@
 import 'package:flutter/material.dart';
-import '../viewmodel/restaurant_profile_viewmodel.dart';
 import 'package:provider/provider.dart';
 
-class RestaurantProfilePage extends StatelessWidget {
-  final RestaurantProfileViewModel viewModel;
+import '../viewmodel/restaurant_profile_viewmodel.dart';
 
-  RestaurantProfilePage({required this.viewModel});
+class RestaurantProfilePage extends StatefulWidget {
+  final String restaurantId;
+
+  RestaurantProfilePage({required this.restaurantId});
+
+  @override
+  _RestaurantProfilePageState createState() => _RestaurantProfilePageState();
+}
+
+class _RestaurantProfilePageState extends State<RestaurantProfilePage> {
+  late RestaurantProfileViewModel viewModel;
+
+  @override
+  void initState() {
+    super.initState();
+    viewModel = Provider.of<RestaurantProfileViewModel>(context, listen: false);
+    viewModel.fetchDataFromDatabase(widget.restaurantId);
+  }
 
   @override
   Widget build(BuildContext context) {
-    final RestaurantProfileViewModel viewModel =
-        Provider.of<RestaurantProfileViewModel>(context, listen: false);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blueGrey,
@@ -29,10 +42,10 @@ class RestaurantProfilePage extends StatelessWidget {
               const SizedBox(height: 36),
               _buildTextField('Name', viewModel.model.name, (value) => viewModel.model.name = value),
               const SizedBox(height: 36),
-              _buildTextField('Information', viewModel.model.information, (value) => viewModel.model.information = value),
+              _buildTextField('Logo URL', viewModel.model.logo, (value) => viewModel.model.logo = value),
+              const SizedBox(height: 36),
+              _buildTextField('Description', viewModel.model.desc, (value) => viewModel.model.desc = value),
               const SizedBox(height: 56),
-              _buildLogoButton(context),
-              const SizedBox(height: 132),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -71,15 +84,6 @@ class RestaurantProfilePage extends StatelessWidget {
           borderRadius: BorderRadius.circular(10.0),
         ),
       ),
-    );
-  }
-
-  Widget _buildLogoButton(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () => viewModel.handleLogoSelection(context),
-      style: ElevatedButton.styleFrom(backgroundColor: Colors.blueGrey),
-      child: const Text('Choose Logo',
-          style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold)),
     );
   }
 }
