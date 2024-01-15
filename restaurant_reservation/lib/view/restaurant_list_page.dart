@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:restaurant_reservation/model/restaurant.dart';
+import 'package:restaurant_reservation/view/local_restaurants_page.dart';
 import 'package:restaurant_reservation/viewmodel/restaurant_list_viewmodel.dart';
 import 'feedback_page.dart';
 import 'reserve_table_page.dart';
-import 'local_restaurants_page.dart';
 import 'package:provider/provider.dart';
 
 class RestaurantListPage extends StatelessWidget {
