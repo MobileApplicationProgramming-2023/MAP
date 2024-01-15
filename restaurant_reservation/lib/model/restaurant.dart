@@ -1,16 +1,16 @@
 class Restaurant {
-  final String id;
-  final String name;
-  final String logo;
-  final String desc;
-  final String role; 
+   String id;
+   String name;
+  String logo;
+   String desc;
+   String role;
 
   Restaurant({
     required this.id,
     required this.name,
     required this.logo,
     required this.desc,
-    required this.role, 
+    required this.role,
   });
 
   factory Restaurant.fromJson(Map<String, dynamic> json) {
@@ -19,7 +19,7 @@ class Restaurant {
       name: json['name'] ?? '',
       logo: json['logo'] ?? '',
       desc: json['desc'] ?? '',
-      role: json['role'] ?? '', 
+      role: json['role'] ?? '',
     );
   }
 
@@ -39,7 +39,7 @@ class Restaurant {
       name: map['name'],
       logo: map['logo'],
       desc: map['desc'],
-      role: map['role'], 
+      role: map['role'],
     );
   }
 }
