@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../model/reservation.dart';
 import '../viewmodel/owner_request_list_viewmodel.dart';
 
-class OwnerRequestListPage extends StatefulWidget {
-  @override
-  _OwnerRequestListPageState createState() => _OwnerRequestListPageState();
-}
-
-class _OwnerRequestListPageState extends State<OwnerRequestListPage> {
-  final OwnerRequestListViewModel viewModel = OwnerRequestListViewModel();
-
+class OwnerRequestListPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final viewModel = Provider.of<OwnerRequestListViewModel>(context);
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Reservation Requests'),
@@ -38,11 +36,13 @@ class _OwnerRequestListPageState extends State<OwnerRequestListPage> {
           ),
         ],
       ),
-      body: _buildReservationList(),
+      body: _buildReservationList(context),
     );
   }
 
-  Widget _buildReservationList() {
+  Widget _buildReservationList(BuildContext context) {
+    final viewModel = Provider.of<OwnerRequestListViewModel>(context);
+
     return viewModel.reservationRequests.isEmpty
         ? const Center(
             child: Text(
@@ -61,18 +61,21 @@ class _OwnerRequestListPageState extends State<OwnerRequestListPage> {
 
   Widget _buildReservationRequestCard(
       BuildContext context, Reservation reservation) {
+    final viewModel = Provider.of<OwnerRequestListViewModel>(context);
+
     return Card(
       margin: const EdgeInsets.all(8.0),
       child: ListTile(
         title: Text(
-            '${reservation.userName} - ${reservation.numberOfGuests} Guests'),
-        subtitle: Text('Date: ${reservation.dateTime}'),
+            '${reservation.reserveid} - ${reservation.guestNum} Guests'),
+        subtitle: Text('Date: ${reservation.date}'),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             ElevatedButton(
               onPressed: () {
-                _handleAccept(context, reservation);
+                viewModel.acceptReservation(reservation);
+                _showSnackbar(context, 'Reservation accepted');
               },
               style: ElevatedButton.styleFrom(backgroundColor: Colors.blueGrey),
               child: const Text('Accept',
@@ -82,7 +85,8 @@ class _OwnerRequestListPageState extends State<OwnerRequestListPage> {
             const SizedBox(width: 8),
             ElevatedButton(
               onPressed: () {
-                _handleReject(context, reservation);
+                viewModel.rejectReservation(reservation);
+                _showSnackbar(context, 'Reservation rejected');
               },
               style: ElevatedButton.styleFrom(backgroundColor: Colors.orangeAccent),
               child: const Text(
@@ -96,16 +100,6 @@ class _OwnerRequestListPageState extends State<OwnerRequestListPage> {
       ),
     );
   }
-
-  void _handleAccept(BuildContext context, Reservation reservation) {
-  viewModel.acceptReservation(reservation);
-  _showSnackbar(context, 'Reservation accepted');
-}
-
-  void _handleReject(BuildContext context, Reservation reservation) {
-  viewModel.rejectReservation(reservation);
-  _showSnackbar(context, 'Reservation rejected');
-}
 
   void _handleLogout(BuildContext context) {
     Navigator.pushReplacementNamed(context, '/');
