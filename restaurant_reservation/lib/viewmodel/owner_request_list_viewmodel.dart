@@ -1,40 +1,47 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
-import'../model/reservation.dart';
-import 'package:restaurant_reservation/model/reservation.dart';
-/*
+
+import '../model/reservation.dart';
+
 class OwnerRequestListViewModel extends ChangeNotifier {
-  final List<Reservation> _reservationRequests = [
-    Reservation(
-      userName: 'John Doe',
-      dateTime: DateTime.now().add(const Duration(days: 2)),
-      numberOfGuests: 3,
-    ),
-    Reservation(
-      userName: 'Alice Smith',
-      dateTime: DateTime.now().add(const Duration(days: 3, hours: 5)),
-      numberOfGuests: 2,
-    ),
-    
-  ];
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final String collectionName = 'reservationRequests';
+
+  List<Reservation> _reservationRequests = [];
 
   List<Reservation> get reservationRequests => _reservationRequests;
 
-  void acceptReservation(Reservation reservation) {
-   
-    _removeReservation(reservation);
-
-    notifyListeners();
+  OwnerRequestListViewModel() {
+    _fetchReservationRequests();
   }
 
-  void rejectReservation(Reservation reservation) {
-   
-    _removeReservation(reservation);
-
-    notifyListeners();
+  Future<void> _fetchReservationRequests() async {
+    try {
+      QuerySnapshot snapshot = await _firestore.collection(collectionName).get();
+      _reservationRequests = snapshot.docs
+          .map((doc) => Reservation.fromMap(doc.data() as Map<String, dynamic>))
+          .toList();
+      notifyListeners();
+    } catch (e) {
+      print('Error fetching reservation requests: $e');
+    }
   }
 
-  void _removeReservation(Reservation reservation) {
-    _reservationRequests.remove(reservation);
+  Future<void> acceptReservation(Reservation reservation) async {
+    try {
+      await _firestore.collection(collectionName).doc(reservation.reserveid).delete();
+      _fetchReservationRequests();
+    } catch (e) {
+      print('Error accepting reservation: $e');
+    }
+  }
+
+  Future<void> rejectReservation(Reservation reservation) async {
+    try {
+      await _firestore.collection(collectionName).doc(reservation.reserveid).delete();
+      _fetchReservationRequests();
+    } catch (e) {
+      print('Error rejecting reservation: $e');
+    }
   }
 }
-
