@@ -5,9 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../model/customer.dart';
 
-class SignUpViewModel extends ChangeNotifier{
-
-
+class SignUpViewModel extends ChangeNotifier {
   String name = '';
   String email = '';
   String password = '';
@@ -33,7 +31,6 @@ class SignUpViewModel extends ChangeNotifier{
     notifyListeners();
   }
 
-
   final TextEditingController emailController = TextEditingController();
   final TextEditingController usernameController = TextEditingController();
   final TextEditingController phoneNumberController = TextEditingController();
@@ -42,44 +39,39 @@ class SignUpViewModel extends ChangeNotifier{
 
   bool get keepSignedIn => keepSignedInNotifier.value;
 
-  bool get isInputValid {
-    bool isEmailValid = _isValidEmail(emailController.text);
-    bool isPhoneNumberValid = _isValidPhoneNumber(phoneNumberController.text);
-    bool isPasswordValid = passwordController.text.length >= 8;
-
-    return isEmailValid && isPhoneNumberValid && isPasswordValid;
-  }
-
-  bool _isValidEmail(String email) {
-    return email.contains('@');
-  }
-
-  bool _isValidPhoneNumber(String phoneNumber) {
-    return int.tryParse(phoneNumber) != null;
-  }
-
   Future<String?> signUp(BuildContext context) async {
-  try {
-    UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
-      email: email,
-      password: password,
-    );
+    try {
+      UserCredential userCredential =
+          await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
 
-    Customer customer = Customer(
-      id: userCredential.user?.uid ?? '',
-      name: name,
-      phoneNumber: phonenumber.toString(),
-      pastReserve: [],  
-      username: name,  
-      password: password,  
-      email: email,
-    );
-    await FirebaseFirestore.instance.collection('customers').doc(customer.id).set(customer.toJson());
-    Navigator.pushNamed(context, '/signupSuccess');
+      Customer customer = Customer(
+        id: userCredential.user?.uid ?? '',
+        name: name,
+        phoneNumber: phonenumber.toString(),
+        pastReserve: [],
+        username: name,
+        password: password,
+        email: email,
+      );
 
-    return null;
-  } on FirebaseAuthException catch (e) {
-    return e.message;
+      await FirebaseFirestore.instance
+          .collection('customers')
+          .doc(customer.id)
+          .set(customer.toJson());
+
+      setName('');
+      setEmail('');
+      setPassword('');
+      setPhonenumber(0);
+
+      Navigator.pushNamed(context, '/signupSuccess');
+
+      return null;
+    } on FirebaseAuthException catch (e) {
+      return e.message;
+    }
   }
-}
 }

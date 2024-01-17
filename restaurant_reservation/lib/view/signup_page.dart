@@ -90,14 +90,10 @@ class _SignUpPageState extends State<SignUpPage> {
               const SizedBox(height: 16),
               ElevatedButton(
                 onPressed: () {
-                  if (_viewModel.isInputValid) {
-                    Navigator.pushReplacement(
+                  Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(builder: (context) => SignInPage()),
                     );
-                  } else {
-                    _showInvalidInputDialog();
-                  }
                 },
                 child: Container(
                   child: const Text('Sign Up'),
