@@ -4,6 +4,7 @@ import 'reserve_table_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class LocalRestaurantsPage extends StatelessWidget {
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -36,17 +37,17 @@ class LocalRestaurantsPage extends StatelessWidget {
   }
 
   Future<List<LocalRestaurant>> fetchLocalRestaurants() async {
-    QuerySnapshot querySnapshot =
-        await FirebaseFirestore.instance.collection('local_restaurants').get();
+  QuerySnapshot querySnapshot =
+      await FirebaseFirestore.instance.collection('local_restaurants').get();
 
-    return querySnapshot.docs.map((doc) {
-      return LocalRestaurant(
-        name: doc['name'],
-        typeOfFood: doc['typeOfFood'],
-        imageUrl: doc['imageUrl'],
-      );
-    }).toList();
-  }
+  return querySnapshot.docs.map((doc) {
+    return LocalRestaurant(
+      name: doc['name'],
+      typeOfFood: doc['typeOfFood'],
+      imageUrl: doc['imageUrl'],
+    );
+  }).toList();
+}
 }
 
 class LocalRestaurantListItem extends StatelessWidget {
@@ -74,13 +75,12 @@ class LocalRestaurantListItem extends StatelessWidget {
           },
         ),
         onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) =>
-                  ReserveTablePage(localRestaurant: localRestaurant),
-            ),
-          );
+         Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            ReserveTablePage(),
+                      ));
         },
       ),
     );

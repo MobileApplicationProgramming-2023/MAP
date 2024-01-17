@@ -1,21 +1,19 @@
 import 'package:flutter/material.dart';
-import 'parant_reservatew/local_restaurants_page.dart';
-import 'reservation_success_alert.dart';
-import '../../model/credit_card_INFO.dart';
 import 'package:provider/provider.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'reservation_success_alert.dart';
+import '../../model/credit_card_info.dart';
+import '../viewmodel/credit_card_viewmodel.dart';
+import '../view/local_restaurants_page.dart';
 
 class CreditCardPaymentPage extends StatefulWidget {
-  final LocalRestaurant localRestaurant;
-
-  CreditCardPaymentPage({required this.localRestaurant});
+  
 
   @override
   _CreditCardPaymentPageState createState() => _CreditCardPaymentPageState();
 }
 
 class _CreditCardPaymentPageState extends State<CreditCardPaymentPage> {
-  CreditCardInfo _creditCard = CreditCardInfo(Balance: null, CardNumber: null, expireDate: '');
+  final CreditCardViewModel _creditCardViewModel = CreditCardViewModel();
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +29,7 @@ class _CreditCardPaymentPageState extends State<CreditCardPaymentPage> {
           children: [
             TextFormField(
               onChanged: (value) {
-                _creditCard.CardNumber = value;
+                _creditCardViewModel.updateCardNumber(value);
               },
               decoration: const InputDecoration(labelText: 'Card Number'),
               keyboardType: TextInputType.number,
@@ -42,20 +40,10 @@ class _CreditCardPaymentPageState extends State<CreditCardPaymentPage> {
                 Expanded(
                   child: TextFormField(
                     onChanged: (value) {
-                      _creditCard.expireDate = value;
+                      _creditCardViewModel.updateExpirationDate(value);
                     },
                     decoration:
                         const InputDecoration(labelText: 'Expiration Date'),
-                  ),
-                ),
-                const SizedBox(width: 16),
-                Expanded(
-                  child: TextFormField(
-                    onChanged: (value) {
-                      _creditCard.cvv = value;
-                    },
-                    decoration: const InputDecoration(labelText: 'CVV'),
-                    keyboardType: TextInputType.number,
                   ),
                 ),
               ],
@@ -64,15 +52,19 @@ class _CreditCardPaymentPageState extends State<CreditCardPaymentPage> {
             ElevatedButton(
               style: ElevatedButton.styleFrom(backgroundColor: Colors.blueGrey),
               onPressed: () async {
-                if (_creditCard.isValidData()) {
-                  await saveReservationToDatabase();
+                if (_creditCardViewModel.isValidData()) {
+                  await _creditCardViewModel.saveCreditCardToDatabase();
 
                   Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => ReservationSuccessPage()),
+                      builder: (context) => ReservationSuccessPage(),
+                    ),
                   );
-                } else {}
+                } else {
+                  // Handle invalid data
+                  _showInvalidDataDialog();
+                }
               },
               child: const Text('Pay Now',
                   style: TextStyle(
@@ -84,18 +76,23 @@ class _CreditCardPaymentPageState extends State<CreditCardPaymentPage> {
     );
   }
 
-  Future<void> saveReservationToDatabase() async {
-    try {
-      CollectionReference reservationsCollection =
-          FirebaseFirestore.instance.collection('reservations');
-
-      await reservationsCollection.add({
-        'localRestaurantName': widget.localRestaurant.name,
-        'localRestaurantTypeOfFood': widget.localRestaurant.typeOfFood,
-        'reservationTime': DateTime.now(),
-      });
-    } catch (e) {
-      print('Error saving reservation: $e');
-    }
+  void _showInvalidDataDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Invalid Data'),
+          content: const Text('Please check your card information and try again.'),
+          actions: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
   }
 }

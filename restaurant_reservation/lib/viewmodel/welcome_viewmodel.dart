@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:restaurant_reservation/view/signup_page.dart';
-class WelcomeViewModel {
+class WelcomeViewModel extends ChangeNotifier{
   final BuildContext context;
 
   WelcomeViewModel(this.context);

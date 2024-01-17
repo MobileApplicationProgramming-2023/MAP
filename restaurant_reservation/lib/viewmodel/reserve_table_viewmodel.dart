@@ -54,10 +54,8 @@ class ReserveTableViewModel extends ChangeNotifier {
 
   Future<void> reserveTable() async {
   try {
-    // Access Firestore instance
     final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-    // Create a Reservation object
     Reservation reservation = Reservation(
       guestNum: numberOfGuests.value,
       specialReq: specialRequest.value,
@@ -73,14 +71,11 @@ class ReserveTableViewModel extends ChangeNotifier {
       state: 'Pending',
     );
 
-    // Save the reservation to Firestore
     DocumentReference reservationRef =
         await firestore.collection('reservations').add(reservation.toJson());
 
-    // Update the reservation with the generated document ID
     await reservationRef.update({'reserveid': reservationRef.id});
 
-    // Print the reservation details
     print('Reserved Table: ${reservationRef.id} - ${reservation.toJson()}');
   } catch (e) {
     print('Failed to reserve table: $e');
@@ -89,7 +84,6 @@ class ReserveTableViewModel extends ChangeNotifier {
 
 
   String getSelectedSetting() {
-    // Implement this method based on your checkboxes' values
     if (insideChecked.value) {
       return 'Inside';
     } else if (eventZoneChecked.value) {

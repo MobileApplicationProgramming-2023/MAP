@@ -4,9 +4,11 @@ import 'package:provider/provider.dart';
 import '../viewmodel/restaurant_profile_viewmodel.dart';
 
 class RestaurantProfilePage extends StatefulWidget {
+    final RestaurantProfileViewModel viewModel;
+
   final String restaurantId;
 
-  RestaurantProfilePage({required this.restaurantId});
+  RestaurantProfilePage({required this.restaurantId, required this.viewModel});
 
   @override
   _RestaurantProfilePageState createState() => _RestaurantProfilePageState();

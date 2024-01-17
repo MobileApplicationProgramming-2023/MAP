@@ -1,6 +1,6 @@
 class CreditCardInfo {
-   double Balance;
-   int CardNumber;
+   double? Balance;
+   int? CardNumber;
    String expireDate;
 
   CreditCardInfo({

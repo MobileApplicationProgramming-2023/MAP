@@ -1,16 +1,10 @@
 import 'package:flutter/material.dart';
 import 'reservation_success_alert.dart';
-import '../model/payment_method.dart';
+import '../model/credit_card_info.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SelectPaymentMethod extends StatelessWidget {
-  final List<PaymentMethod> paymentMethods = [
-    PaymentMethod(
-        name: 'Pay at Restaurant', description: 'Pay when you arrive'),
-    PaymentMethod(name: 'Credit Card', description: 'Secure online payment'),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,28 +24,48 @@ class SelectPaymentMethod extends StatelessWidget {
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 32),
-              for (var method in paymentMethods)
-                ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.blueGrey),
-                  onPressed: () async {
-                    if (method.name == 'Pay at Restaurant') {
-                      await savePaymentMethodToDatabase(method);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => ReservationSuccessPage()),
-                      );
-                    } else if (method.name == 'Credit Card') {
-                      await savePaymentMethodToDatabase(method);
-                      Navigator.pushReplacementNamed(
-                          context, '/creditCardPayment');
-                    }
-                  },
-                  child: Text(method.name,
-                      style: TextStyle(
-                          color: Colors.black, fontWeight: FontWeight.bold)),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blueGrey),
+                onPressed: () async {
+                  CreditCardInfo method = CreditCardInfo(
+                    Balance: null,
+                    CardNumber: null,
+                    expireDate: '',
+                  );
+                  await savePaymentMethodToDatabase(method);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ReservationSuccessPage(),
+                    ),
+                  );
+                },
+                child: Text(
+                  'Pay at Restaurant',
+                  style: TextStyle(
+                      color: Colors.black, fontWeight: FontWeight.bold),
                 ),
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blueGrey),
+                onPressed: () async {
+                  CreditCardInfo method = CreditCardInfo(
+                    Balance: null,
+                    CardNumber: null,
+                    expireDate: '',
+                  );
+                  await savePaymentMethodToDatabase(method);
+                  Navigator.pushReplacementNamed(
+                      context, '/creditCardPayment');
+                },
+                child: Text(
+                  'Credit Card',
+                  style: TextStyle(
+                      color: Colors.black, fontWeight: FontWeight.bold),
+                ),
+              ),
             ],
           ),
         ),
@@ -59,14 +73,14 @@ class SelectPaymentMethod extends StatelessWidget {
     );
   }
 
-  Future<void> savePaymentMethodToDatabase(PaymentMethod method) async {
+  Future<void> savePaymentMethodToDatabase(CreditCardInfo method) async {
     try {
       CollectionReference paymentMethodsCollection =
           FirebaseFirestore.instance.collection('payment_methods');
 
       await paymentMethodsCollection.add({
-        'name': method.name,
-        'description': method.description,
+        'CardNumber': method.CardNumber,
+        'expireDate': method.expireDate,
         'timestamp': DateTime.now(),
       });
     } catch (e) {

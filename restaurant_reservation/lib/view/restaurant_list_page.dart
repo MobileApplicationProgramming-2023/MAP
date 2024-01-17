@@ -11,8 +11,8 @@ class RestaurantListPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final RestaurantListViewModel _viewModel =
         Provider.of<RestaurantListViewModel>(context);
-
-    // Call fetchRestaurants when the widget is first built
+    final RestaurantListViewModel _restaurantListViewModel =
+        Provider.of<RestaurantListViewModel>(context);
     _viewModel.fetchRestaurants();
 
     return Scaffold(
@@ -42,9 +42,11 @@ class RestaurantListPage extends StatelessWidget {
                 },
                 onReserveTap: () {
                   Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => ReserveTablePage()),
-                  );
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            ReserveTablePage(),
+                      ));
                 },
               );
             },

@@ -1,18 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../viewmodel/account_details_viewmodel.dart';
-import '../model/customer.dart';
+import '../model/Customer.dart';
 class AccountDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var accountDetailsModel = Customer(
-      id: '001',
-      email: 'Johndoe12@example.com',
-      pastReservations: ['Reservation 1', 'Reservation 2', 'Reservation 3'],
+       name: '',
+        id: '',
+        email: '',
+        password: '', 
+        pastReserve: [],
+        phoneNumber: '',
+        username: '',
     );
 
     return ChangeNotifierProvider(
-      create: (context) => CustomerViewModel(accountDetails: accountDetailsModel),
+      create: (context) => CustomerViewModel(customer: accountDetailsModel),
       child: _AccountDetailsPageContent(),
     );
   }
@@ -36,7 +40,7 @@ class _AccountDetailsPageContent extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Full Name: ${viewModel.fullName}',
+              'Full Name: ${viewModel.name}',
               style: const TextStyle(fontSize: 18),
             ),
             const SizedBox(height: 16),
@@ -52,7 +56,7 @@ class _AccountDetailsPageContent extends StatelessWidget {
             const SizedBox(height: 8),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: viewModel.pastReservations.map((reservation) {
+              children: viewModel.pastReserve.map((reservation) {
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 4.0),
                   child: Text('- $reservation'),
